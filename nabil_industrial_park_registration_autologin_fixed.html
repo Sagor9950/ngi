@@ -1,0 +1,4658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NABIL INDUSTRIAL PARK — IT Device &amp; Project Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f1f5f9;
+      --surface: #ffffff;
+      --surface-alt: #f8fafc;
+      --nav-bg: #0f172a;
+      --nav-hover: #1e293b;
+      --primary: #0284c7;
+      --primary-dark: #0369a1;
+      --accent: #38bdf8;
+      --text: #0f172a;
+      --muted: #475569;
+      --border: #e2e8f0;
+      --ok-bg: #ecfdf5;
+      --ok-border: #10b981;
+      --ok-text: #065f46;
+      --bad-bg: #fef2f2;
+      --bad-border: #ef4444;
+      --bad-text: #991b1b;
+      --shadow: 0 4px 16px rgba(15, 23, 42, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header / Navbar */
+    header {
+      background: var(--nav-bg);
+      color: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .nav-container {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 0.7rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      font-weight: 800;
+      font-size: 1rem;
+      letter-spacing: 0.03em;
+      color: #fff;
+      cursor: pointer;
+      white-space: nowrap;
+      border: none;
+      background: transparent;
+    }
+
+    .brand-badge {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #0284c7, #38bdf8);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.9rem;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .datetime-btn {
+      background: rgba(56, 189, 248, 0.14);
+      color: #e0f2fe;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      border-radius: 8px;
+      padding: 0.4rem 0.7rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s ease;
+    }
+
+    .datetime-btn:hover {
+      background: rgba(56, 189, 248, 0.25);
+    }
+
+    .menu-toggle {
+      display: none;
+      background: var(--nav-hover);
+      color: #fff;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 0.42rem 0.7rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    nav.main-nav {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-item {
+      position: relative;
+    }
+
+    .nav-link {
+      background: transparent;
+      color: #e2e8f0;
+      border: none;
+      border-radius: 8px;
+      padding: 0.48rem 0.78rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: background 0.15s ease, color 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      background: var(--nav-hover);
+      color: var(--accent);
+    }
+
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      min-width: 245px;
+      max-height: 360px;
+      overflow-y: auto;
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      padding: 0.4rem;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+      z-index: 1100;
+    }
+
+    .nav-item.open .dropdown-menu {
+      display: block;
+    }
+
+    .dropdown-item {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      color: #e2e8f0;
+      border: none;
+      border-radius: 6px;
+      padding: 0.48rem 0.7rem;
+      font-size: 0.83rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.12s ease, color 0.12s ease;
+    }
+
+    .dropdown-item:hover {
+      background: #334155;
+      color: #38bdf8;
+    }
+
+    @media (max-width: 960px) {
+      .menu-toggle {
+        display: inline-flex;
+        align-items: center;
+      }
+
+      nav.main-nav {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        padding-top: 0.5rem;
+        border-top: 1px solid #1e293b;
+      }
+
+      nav.main-nav.mobile-open {
+        display: flex;
+      }
+
+      .nav-link {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .dropdown-menu {
+        position: static;
+        width: 100%;
+        box-shadow: none;
+        margin-top: 0.25rem;
+      }
+    }
+
+    /* Main Content */
+    main {
+      flex: 1;
+      max-width: 1320px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 1.5rem 1rem 3rem;
+    }
+
+    .view-section {
+      display: none;
+    }
+
+    .view-section.active {
+      display: block;
+      animation: fadeIn 0.2s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Hero Banner (Home) */
+    .hero {
+      background: linear-gradient(135deg, #0f172a 0%, #0369a1 60%, #0284c7 100%);
+      color: #fff;
+      border-radius: 18px;
+      padding: 4.5rem 2rem;
+      text-align: center;
+      box-shadow: 0 18px 40px rgba(2, 132, 199, 0.22);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top right, rgba(56, 189, 248, 0.22), transparent 55%);
+      pointer-events: none;
+    }
+
+    .hero-tag {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      padding: 0.35rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 1.1rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.85rem;
+    }
+
+    .hero p {
+      max-width: 640px;
+      margin: 0 auto;
+      color: #e0f2fe;
+      font-size: 1.05rem;
+    }
+
+    /* Section Header */
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .section-head h2 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .btn {
+      border: none;
+      border-radius: 8px;
+      padding: 0.52rem 0.95rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: background 0.15s ease, transform 0.1s ease;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+    }
+
+    .btn-secondary {
+      background: #e2e8f0;
+      color: #1e293b;
+    }
+
+    .btn-secondary:hover {
+      background: #cbd5e1;
+    }
+
+    .btn-success {
+      background: #059669;
+      color: #fff;
+    }
+
+    .btn-success:hover {
+      background: #047857;
+    }
+
+    .btn-danger {
+      background: #dc2626;
+      color: #fff;
+    }
+
+    .btn-danger:hover {
+      background: #b91c1c;
+    }
+
+
+    /* Checked By (2 Persons) Card */
+    .checker-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.15rem 1.35rem;
+      box-shadow: var(--shadow);
+      margin-bottom: 1.35rem;
+    }
+
+    .checker-card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .checker-card-head h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .checker-datetime-bar {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.7rem 0.85rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .checker-datetime-label {
+      font-size: 0.83rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-right: 0.25rem;
+    }
+
+    .checker-datetime-input {
+      padding: 0.42rem 0.6rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 7px;
+      font-size: 0.83rem;
+      font-family: inherit;
+      background: #fff;
+      color: var(--text);
+    }
+
+    .checker-datetime-input:focus {
+      outline: 2px solid var(--primary);
+      border-color: transparent;
+    }
+
+    .checker-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 0.9rem;
+    }
+
+    .checker-person {
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.85rem;
+    }
+
+    .checker-person-title {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 0.55rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .checker-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+    }
+
+    .checker-fields .full-span {
+      grid-column: 1 / -1;
+    }
+
+    .checker-input {
+      width: 100%;
+      padding: 0.46rem 0.65rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 7px;
+      font-size: 0.83rem;
+      font-family: inherit;
+      background: #fff;
+      color: var(--text);
+    }
+
+    .checker-input:focus {
+      outline: 2px solid var(--primary);
+      border-color: transparent;
+    }
+
+    .report-checkers {
+      font-size: 0.81rem;
+      color: #334155;
+      background: #f1f5f9;
+      border-radius: 7px;
+      padding: 0.45rem 0.7rem;
+      margin-bottom: 0.45rem;
+    }
+
+    /* Project Cards */
+    .projects-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.35rem;
+      box-shadow: var(--shadow);
+    }
+
+    .project-card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      padding-bottom: 0.9rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 0.9rem;
+    }
+
+    .project-card-head h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .project-controls {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .status-pill {
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.32rem 0.75rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--muted);
+    }
+
+    .question-banner {
+      background: #eff6ff;
+      border-left: 4px solid var(--primary);
+      padding: 0.7rem 0.95rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #1e3a8a;
+      margin-bottom: 1rem;
+    }
+
+    .device-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 0.75rem;
+    }
+
+    .device-check-card {
+      background: var(--surface-alt);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 0.75rem;
+      transition: border-color 0.15s ease, background 0.15s ease;
+    }
+
+    .device-check-card.state-yes {
+      background: var(--bad-bg);
+      border-color: var(--bad-border);
+    }
+
+    .device-check-card.state-no {
+      background: var(--ok-bg);
+      border-color: var(--ok-border);
+    }
+
+    .device-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+
+    .device-label {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .yn-group {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      flex-shrink: 0;
+    }
+
+    .yn-option {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.24rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .yn-option.yes {
+      color: var(--bad-text);
+    }
+
+    .yn-option.no {
+      color: var(--ok-text);
+    }
+
+    .yn-option input {
+      width: 15px;
+      height: 15px;
+      cursor: pointer;
+    }
+
+    .reason-wrap {
+      display: none;
+      margin-top: 0.55rem;
+    }
+
+    .device-check-card.state-yes .reason-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .reason-entry {
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid #fecaca;
+      border-radius: 8px;
+      padding: 0.45rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .reason-entry-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--bad-text);
+    }
+
+    .remove-entry-btn {
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fca5a5;
+      border-radius: 4px;
+      padding: 0.1rem 0.4rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .remove-entry-btn:hover {
+      background: #fecaca;
+    }
+
+    .add-more-btn {
+      align-self: flex-start;
+      background: #fff;
+      color: #991b1b;
+      border: 1px dashed #ef4444;
+      border-radius: 6px;
+      padding: 0.3rem 0.6rem;
+      font-size: 0.76rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .add-more-btn:hover {
+      background: #fee2e2;
+    }
+
+    .printer-type-group {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    .printer-type-option {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      background: #fff;
+      border: 1px solid #fca5a5;
+      border-radius: 6px;
+      padding: 0.25rem 0.5rem;
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: #991b1b;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .printer-type-option.selected {
+      background: #dc2626;
+      border-color: #dc2626;
+      color: #fff;
+    }
+
+    .printer-type-option input {
+      margin: 0;
+      cursor: pointer;
+      accent-color: #fff;
+    }
+
+    .reason-meta-row {
+      display: grid;
+      grid-template-columns: 1fr 1.35fr;
+      gap: 0.4rem;
+    }
+
+    .reason-input {
+      width: 100%;
+      padding: 0.42rem 0.6rem;
+      border: 1px solid #fca5a5;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-family: inherit;
+      background: #fff;
+      color: var(--text);
+    }
+
+    .reason-input:focus {
+      outline: 2px solid #ef4444;
+      border-color: transparent;
+    }
+
+    .project-footer {
+      margin-top: 1.1rem;
+      padding-top: 0.9rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    /* Submitted Reports */
+    .reports-section {
+      margin-top: 2rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.35rem;
+      box-shadow: var(--shadow);
+    }
+
+    .reports-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      margin-top: 1rem;
+    }
+
+    .report-item {
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.9rem 1rem;
+    }
+
+    .report-item-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.45rem;
+    }
+
+    .report-meta {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .report-issues {
+      font-size: 0.84rem;
+      color: var(--bad-text);
+      margin-top: 0.35rem;
+      padding-left: 1.1rem;
+    }
+
+    /* IT Devices Standalone Grid */
+    .it-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1rem;
+    }
+
+    .it-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.15rem;
+      box-shadow: var(--shadow);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .it-card.highlight {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.2);
+    }
+
+    .it-num {
+      display: inline-block;
+      background: #e0f2fe;
+      color: #0369a1;
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 0.2rem 0.55rem;
+      border-radius: 999px;
+      margin-bottom: 0.45rem;
+    }
+
+    .it-card h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+
+    .it-card p {
+      font-size: 0.84rem;
+      color: var(--muted);
+    }
+
+    /* Info Cards (About / Services / Contact) */
+    .info-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .sub-card {
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem;
+    }
+
+    .sub-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+    }
+
+    .sub-card p {
+      font-size: 0.87rem;
+      color: var(--muted);
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 1.25rem;
+      right: 1.25rem;
+      background: #0f172a;
+      color: #fff;
+      padding: 0.7rem 1.05rem;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(8px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      z-index: 4000;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    footer {
+      background: var(--nav-bg);
+      color: #94a3b8;
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.82rem;
+      margin-top: auto;
+    }
+
+    .report-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      flex-wrap: wrap;
+    }
+
+    .date-filter-select {
+      padding: 0.46rem 0.7rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 0.84rem;
+      font-weight: 600;
+      font-family: inherit;
+      background: #fff;
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    .date-group-card {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: #fff;
+      overflow: hidden;
+    }
+
+    .date-group-head {
+      background: #e0f2fe;
+      color: #0369a1;
+      padding: 0.65rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      border-bottom: 1px solid #bae6fd;
+    }
+
+    .date-group-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+    }
+
+    .date-consolidated-box {
+      background: #fff;
+      border: 1px solid #bae6fd;
+      border-radius: 10px;
+      padding: 0.75rem 0.95rem;
+      font-size: 0.84rem;
+    }
+
+    .date-consolidated-title {
+      font-weight: 800;
+      color: #0369a1;
+      margin-bottom: 0.35rem;
+    }
+
+    .date-consolidated-list {
+      padding-left: 1.15rem;
+      color: var(--text);
+      margin-top: 0.25rem;
+    }
+
+    .date-group-body {
+      padding: 0.85rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      background: var(--surface-alt);
+    }
+
+    /* Services Issue Queue */
+    .nav-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 20px;
+      height: 20px;
+      padding: 0 6px;
+      border-radius: 999px;
+      background: #ef4444;
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 800;
+      margin-left: 0.25rem;
+    }
+
+    .services-toolbar {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .services-summary-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1.15rem;
+    }
+
+    .service-stat-pill {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.55rem 0.9rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text);
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+    }
+
+    .service-stat-pill.has-issues {
+      background: var(--bad-bg);
+      border-color: #fca5a5;
+      color: var(--bad-text);
+    }
+
+    .services-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 1.15rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .service-project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .service-project-head {
+      background: #fef2f2;
+      border-bottom: 1px solid #fecaca;
+      padding: 0.8rem 1.15rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .service-project-head h3 {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #991b1b;
+    }
+
+    .service-issue-list {
+      padding: 1rem 1.15rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .service-issue-item {
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-left: 4px solid #ef4444;
+      border-radius: 10px;
+      padding: 0.8rem 1rem;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .service-issue-item.is-submitted {
+      border-left-color: #0284c7;
+    }
+
+    .service-issue-main {
+      flex: 1;
+      min-width: 220px;
+    }
+
+    .service-issue-title {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.3rem;
+    }
+
+    .service-source-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.16rem 0.5rem;
+      border-radius: 999px;
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .service-source-badge.submitted {
+      background: #e0f2fe;
+      color: #0369a1;
+    }
+
+    .service-issue-meta {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 0.3rem;
+    }
+
+    .service-issue-reason {
+      font-size: 0.88rem;
+      color: var(--text);
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 0.45rem 0.65rem;
+    }
+
+    .service-issue-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      flex-wrap: wrap;
+    }
+
+    .service-empty-box {
+      background: var(--surface);
+      border: 1px dashed #cbd5e1;
+      border-radius: 14px;
+      padding: 2rem 1.25rem;
+      text-align: center;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .report-serviced {
+      margin-top: 0.55rem;
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      border-radius: 8px;
+      padding: 0.55rem 0.75rem;
+      font-size: 0.83rem;
+      color: #065f46;
+    }
+
+    .report-serviced ul {
+      margin-top: 0.3rem;
+      padding-left: 1.1rem;
+    }
+
+    /* Edit Report Modal */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.55);
+      z-index: 2500;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 45px rgba(15, 23, 42, 0.3);
+      overflow: hidden;
+    }
+
+    .modal-head {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      background: var(--surface-alt);
+    }
+
+    .modal-head h3 {
+      font-size: 1.1rem;
+      font-weight: 800;
+    }
+
+    .modal-body {
+      padding: 1.15rem 1.25rem;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .modal-section-title {
+      font-size: 0.85rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--primary-dark);
+      margin-bottom: 0.45rem;
+    }
+
+    .modal-edit-row {
+      display: grid;
+      grid-template-columns: 1.1fr 0.8fr 1fr 1.5fr auto;
+      gap: 0.45rem;
+      align-items: center;
+      margin-bottom: 0.45rem;
+    }
+
+    @media (max-width: 700px) {
+      .modal-edit-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .modal-foot {
+      padding: 0.9rem 1.25rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.5rem;
+      background: var(--surface-alt);
+    }
+
+    /* Contact Directory */
+    .contact-form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.65rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .contact-card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 0.9rem;
+      margin-top: 1rem;
+    }
+
+    .contact-person-card {
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.95rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .contact-person-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.15rem;
+    }
+
+    .contact-field-line {
+      font-size: 0.85rem;
+      color: var(--muted);
+      word-break: break-word;
+    }
+
+    .contact-field-line a {
+      color: var(--primary-dark);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .contact-field-line a:hover {
+      text-decoration: underline;
+    }
+
+    .contact-card-actions {
+      display: flex;
+      gap: 0.4rem;
+      margin-top: 0.45rem;
+    }
+
+    .contact-input-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .contact-input-wrap.full-span {
+      grid-column: 1 / -1;
+    }
+
+    .contact-input-icon {
+      position: absolute;
+      left: 0.6rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      color: var(--muted);
+    }
+
+    .contact-input-icon svg {
+      width: 15px;
+      height: 15px;
+      display: block;
+    }
+
+    .contact-input-wrap .checker-input {
+      padding-left: 2rem;
+    }
+
+    .contact-quick-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-top: 0.65rem;
+    }
+
+    .contact-action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.38rem 0.7rem;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--text);
+      cursor: pointer;
+      transition: transform 0.12s ease, background 0.15s ease, border-color 0.15s ease;
+    }
+
+    .contact-action-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .contact-action-btn svg {
+      width: 15px;
+      height: 15px;
+      flex-shrink: 0;
+    }
+
+    .contact-action-btn.phone-btn {
+      color: #0369a1;
+      border-color: #bae6fd;
+      background: #f0f9ff;
+    }
+
+    .contact-action-btn.phone-btn:hover {
+      background: #e0f2fe;
+    }
+
+    .contact-action-btn.whatsapp-btn {
+      color: #15803d;
+      border-color: #bbf7d0;
+      background: #f0fdf4;
+    }
+
+    .contact-action-btn.whatsapp-btn:hover {
+      background: #dcfce7;
+    }
+
+    .contact-action-btn.email-btn {
+      color: #b91c1c;
+      border-color: #fecaca;
+      background: #fef2f2;
+    }
+
+    .contact-action-btn.email-btn:hover {
+      background: #fee2e2;
+    }
+
+    .contact-action-btn.is-empty {
+      opacity: 0.6;
+    }
+
+    /* Print / PDF Area */
+    #printArea {
+      display: none;
+    }
+
+    @media print {
+      body {
+        background: #fff !important;
+        color: #000 !important;
+      }
+
+      header,
+      main,
+      footer,
+      .toast {
+        display: none !important;
+      }
+
+      #printArea {
+        display: block !important;
+        padding: 16px 24px;
+        font-family: 'Inter', system-ui, sans-serif;
+      }
+
+      .pdf-header {
+        border-bottom: 2px solid #0f172a;
+        padding-bottom: 10px;
+        margin-bottom: 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+      }
+
+      .pdf-header h1 {
+        font-size: 18pt;
+        font-weight: 800;
+        color: #0f172a;
+        margin: 0;
+      }
+
+      .pdf-header p {
+        font-size: 9pt;
+        color: #475569;
+        margin: 2px 0 0;
+      }
+
+      .pdf-report-block {
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        padding: 12px 14px;
+        margin-bottom: 14px;
+        page-break-inside: avoid;
+      }
+
+      .pdf-report-title {
+        font-size: 12pt;
+        font-weight: 700;
+        color: #0f172a;
+        margin-bottom: 4px;
+      }
+
+      .pdf-report-meta {
+        font-size: 9pt;
+        color: #475569;
+        margin-bottom: 8px;
+      }
+
+      .pdf-issues-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 9pt;
+        margin-top: 6px;
+      }
+
+      .pdf-issues-table th,
+      .pdf-issues-table td {
+        border: 1px solid #cbd5e1;
+        padding: 5px 8px;
+        text-align: left;
+      }
+
+      .pdf-issues-table th {
+        background: #f1f5f9;
+        font-weight: 700;
+      }
+
+
+      .pdf-checkers-box {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-bottom: 10px;
+        font-size: 8.5pt;
+      }
+
+      .pdf-checker-item {
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        padding: 6px 8px;
+        background: #f8fafc;
+      }
+
+      .pdf-no-issue {
+        font-size: 9pt;
+        color: #065f46;
+        font-weight: 600;
+      }
+    }
+
+    /* Login Gate */
+    body.auth-locked header,
+    body.auth-locked main,
+    body.auth-locked footer {
+      display: none !important;
+    }
+
+    .login-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 3000;
+      background: linear-gradient(135deg, #0f172a 0%, #0369a1 60%, #0284c7 100%);
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    body.auth-locked .login-overlay {
+      display: flex;
+    }
+
+    .login-card {
+      background: var(--surface);
+      color: var(--text);
+      width: 100%;
+      max-width: 410px;
+      border-radius: 16px;
+      padding: 2rem 1.75rem;
+      box-shadow: 0 24px 50px rgba(15, 23, 42, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .login-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .login-brand-text h2 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.2;
+    }
+
+    .login-brand-text p {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .login-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin-bottom: 0.25rem;
+    }
+
+    .login-sub {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 1.25rem;
+    }
+
+    .login-field {
+      margin-bottom: 0.9rem;
+    }
+
+    .login-field label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.35rem;
+    }
+
+    .login-input-box {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .login-input-icon {
+      position: absolute;
+      left: 0.7rem;
+      color: var(--muted);
+      display: inline-flex;
+      pointer-events: none;
+    }
+
+    .login-input-icon svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .login-input {
+      width: 100%;
+      padding: 0.62rem 2.3rem 0.62rem 2.25rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 9px;
+      font-size: 0.9rem;
+      font-family: inherit;
+      background: #f8fafc;
+      color: var(--text);
+    }
+
+    .login-input:focus {
+      outline: 2px solid var(--primary);
+      border-color: transparent;
+      background: #fff;
+    }
+
+    .login-toggle-pw {
+      position: absolute;
+      right: 0.6rem;
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      padding: 0.2rem 0.35rem;
+    }
+
+    .login-error {
+      display: none;
+      background: var(--bad-bg);
+      border: 1px solid #fca5a5;
+      color: var(--bad-text);
+      border-radius: 8px;
+      padding: 0.5rem 0.75rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      margin-bottom: 0.9rem;
+    }
+
+    .login-error.show {
+      display: block;
+    }
+
+    .login-input.is-invalid,
+    .login-select.is-invalid,
+    .reg-admin-projects-box.is-invalid {
+      border-color: #ef4444 !important;
+      background: #fef2f2 !important;
+    }
+
+    .field-inline-error {
+      color: #b91c1c;
+      font-size: 0.74rem;
+      font-weight: 600;
+      margin-top: 0.25rem;
+    }
+
+    .login-submit-btn {
+      width: 100%;
+      justify-content: center;
+      padding: 0.68rem 1rem;
+      font-size: 0.95rem;
+    }
+
+    .logout-btn {
+      background: rgba(239, 68, 68, 0.16);
+      color: #fecaca;
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      border-radius: 8px;
+      padding: 0.38rem 0.68rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s ease;
+    }
+
+    .logout-btn:hover {
+      background: rgba(239, 68, 68, 0.3);
+      color: #fff;
+    }
+
+    .login-card {
+      max-height: 92vh;
+      overflow-y: auto;
+    }
+
+    .auth-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.4rem;
+      background: #f1f5f9;
+      padding: 0.3rem;
+      border-radius: 10px;
+      margin-bottom: 1.1rem;
+    }
+
+    .auth-tab-btn {
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 0.5rem 0.75rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .auth-tab-btn.active {
+      background: #fff;
+      color: var(--primary-dark);
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08);
+    }
+
+    .auth-panel {
+      display: none;
+    }
+
+    .auth-panel.active {
+      display: block;
+    }
+
+    .login-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.65rem;
+    }
+
+    @media (max-width: 480px) {
+      .login-row-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .login-select {
+      width: 100%;
+      padding: 0.62rem 0.75rem 0.62rem 2.25rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 9px;
+      font-size: 0.88rem;
+      font-family: inherit;
+      background: #f8fafc;
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    .login-select:focus {
+      outline: 2px solid var(--primary);
+      border-color: transparent;
+      background: #fff;
+    }
+
+    .reg-admin-projects-box {
+      display: none;
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 9px;
+      padding: 0.65rem 0.75rem;
+    }
+
+    .reg-admin-all-label {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--primary-dark);
+      padding-bottom: 0.45rem;
+      margin-bottom: 0.45rem;
+      border-bottom: 1px solid #e2e8f0;
+      cursor: pointer;
+    }
+
+    .reg-admin-proj-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.35rem 0.55rem;
+    }
+
+    @media (max-width: 480px) {
+      .reg-admin-proj-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .reg-admin-proj-item {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body class="auth-locked">
+  <div class="login-overlay" id="loginOverlay">
+    <div class="login-card">
+      <div class="login-brand">
+        <span class="brand-badge">NI</span>
+        <div class="login-brand-text">
+          <h2>NABIL INDUSTRIAL PARK</h2>
+          <p>IT Device &amp; Project Portal</p>
+        </div>
+      </div>
+
+      <div class="auth-tabs">
+        <button type="button" class="auth-tab-btn active" id="tabLoginBtn">Login</button>
+        <button type="button" class="auth-tab-btn" id="tabRegisterBtn">Registration</button>
+      </div>
+
+      <!-- Login Panel -->
+      <div class="auth-panel active" id="loginPanel">
+        <div class="login-title">Portal Login</div>
+        <p class="login-sub">Enter your registered phone number and password.</p>
+        <form id="loginForm" novalidate>
+          <div class="login-field">
+            <label for="loginPhone">Phone Number</label>
+            <div class="login-input-box">
+              <span class="login-input-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              </span>
+              <input type="tel" id="loginPhone" class="login-input" placeholder="e.g. 017XXXXXXXX" autocomplete="tel" />
+            </div>
+          </div>
+          <div class="login-field">
+            <label for="loginPassword">Password</label>
+            <div class="login-input-box">
+              <span class="login-input-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              </span>
+              <input type="password" id="loginPassword" class="login-input" placeholder="Enter password..." autocomplete="current-password" />
+              <button type="button" class="login-toggle-pw" id="toggleLoginPassword">Show</button>
+            </div>
+          </div>
+          <div class="login-error" id="loginError"></div>
+          <button type="submit" class="btn btn-primary login-submit-btn">Login</button>
+        </form>
+      </div>
+
+      <!-- Registration Panel -->
+      <div class="auth-panel" id="registerPanel">
+        <div class="login-title">New Registration</div>
+        <p class="login-sub">Create your account first to access the portal.</p>
+        <form id="registerForm" novalidate>
+          <div class="login-row-2">
+            <div class="login-field">
+              <label for="regName">Name</label>
+              <div class="login-input-box">
+                <span class="login-input-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </span>
+                <input type="text" id="regName" class="login-input" style="padding-right:0.75rem;" placeholder="Full Name..." />
+              </div>
+            </div>
+            <div class="login-field">
+              <label for="regEmpId">Employee ID</label>
+              <div class="login-input-box">
+                <span class="login-input-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="7" y1="9" x2="17" y2="9"/><line x1="7" y1="13" x2="13" y2="13"/></svg>
+                </span>
+                <input type="text" id="regEmpId" class="login-input" style="padding-right:0.75rem;" placeholder="e.g. EMP-101" />
+              </div>
+            </div>
+          </div>
+
+          <div class="login-field">
+            <label for="regRole">Account Type <span id="adminSlotInfo" style="font-weight:600; color:var(--primary-dark);"></span></label>
+            <div class="login-input-box">
+              <span class="login-input-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </span>
+              <select id="regRole" class="login-select">
+                <option value="user">User (Single Project)</option>
+                <option value="admin">Admin (All Projects — Max 2)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="login-field" id="regProjectWrap">
+            <label for="regProject">Select Project</label>
+            <div class="login-input-box" id="regProjectSelectBox">
+              <span class="login-input-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/></svg>
+              </span>
+              <select id="regProject" class="login-select">
+                <option value="">Select Project...</option>
+              </select>
+            </div>
+            <div class="reg-admin-projects-box" id="regAdminProjectsBox">
+              <label class="reg-admin-all-label">
+                <input type="checkbox" id="regAdminAllProjects" />
+                <span>All (Select All 10 Projects)</span>
+              </label>
+              <div class="reg-admin-proj-grid" id="regAdminProjGrid"></div>
+            </div>
+          </div>
+
+          <div class="login-field">
+            <label for="regPhone">Phone Number</label>
+            <div class="login-input-box">
+              <span class="login-input-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              </span>
+              <input type="tel" id="regPhone" class="login-input" placeholder="e.g. 017XXXXXXXX" autocomplete="tel" />
+            </div>
+          </div>
+
+          <div class="login-row-2">
+            <div class="login-field">
+              <label for="regPassword">Password</label>
+              <div class="login-input-box">
+                <span class="login-input-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                </span>
+                <input type="password" id="regPassword" class="login-input" placeholder="Password..." autocomplete="new-password" />
+                <button type="button" class="login-toggle-pw" id="toggleRegPassword">Show</button>
+              </div>
+            </div>
+            <div class="login-field">
+              <label for="regConfirmPassword">Confirm Password</label>
+              <div class="login-input-box">
+                <span class="login-input-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                </span>
+                <input type="password" id="regConfirmPassword" class="login-input" placeholder="Confirm..." autocomplete="new-password" />
+                <button type="button" class="login-toggle-pw" id="toggleRegConfirmPassword">Show</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="login-error" id="registerError"></div>
+          <button type="submit" class="btn btn-success login-submit-btn">Register &amp; Continue</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <header>
+    <div class="nav-container">
+      <button type="button" class="brand" id="brandBtn">
+        <span class="brand-badge">NI</span>
+        <span>NABIL INDUSTRIAL PARK</span>
+      </button>
+
+      <div class="nav-right">
+        <button type="button" class="datetime-btn" id="datetimeBtn" title="Click to toggle 12h / 24h format">--</button>
+        <button type="button" class="logout-btn" id="logoutBtn" title="Log out of portal">Logout</button>
+        <button type="button" class="menu-toggle" id="menuToggle">Menu ▾</button>
+      </div>
+
+      <nav class="main-nav" id="mainNav">
+        <div class="nav-item">
+          <button type="button" class="nav-link active" data-view="home" id="navHome">Home</button>
+        </div>
+
+        <div class="nav-item" id="projectDropdownWrap">
+          <button type="button" class="nav-link" id="navProjectBtn">Project Name ▾</button>
+          <div class="dropdown-menu" id="projectMenu"></div>
+        </div>
+
+        <div class="nav-item" id="deviceDropdownWrap">
+          <button type="button" class="nav-link" id="navDeviceBtn">IT Device ▾</button>
+          <div class="dropdown-menu" id="deviceMenu"></div>
+        </div>
+
+        <div class="nav-item">
+          <button type="button" class="nav-link" data-view="about">About</button>
+        </div>
+        <div class="nav-item">
+          <button type="button" class="nav-link" data-view="services" id="navServicesBtn">Services <span class="nav-badge" id="servicesNavBadge" style="display:none;"></span></button>
+        </div>
+        <div class="nav-item">
+          <button type="button" class="nav-link" data-view="reports" id="navReportsBtn">Report <span class="nav-badge" id="reportsNavBadge" style="display:none; background:#0284c7;"></span></button>
+        </div>
+        <div class="nav-item">
+          <button type="button" class="nav-link" data-view="contact">Contact</button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Home Section -->
+    <section id="section-home" class="view-section active">
+      <div class="hero">
+        <span class="hero-tag">IT Operations &amp; Device Monitoring</span>
+        <h1>NABIL INDUSTRIAL PARK</h1>
+        <p>Select a unit from Project Name or browse IT Device from the top navigation menu to inspect device status and submit daily IT reports.</p>
+      </div>
+    </section>
+
+    <!-- Project Name Section -->
+    <section id="section-projects" class="view-section">
+      <div class="section-head">
+        <h2 id="projectsTitle">Project Name</h2>
+        <div class="report-actions">
+          <button type="button" class="btn btn-primary" id="submitAllProjectsBtn">Submit All Reports</button>
+          <button type="button" class="btn btn-primary" id="showAllProjectsBtn">All Projects (1 – 10)</button>
+          <button type="button" class="btn btn-secondary" id="goToReportsBtn">View Submitted Reports</button>
+        </div>
+      </div>
+
+      <div class="checker-card">
+        <div class="checker-card-head">
+          <h3>Checklist Verification — Checked By (2 Persons)</h3>
+          <button type="button" class="btn btn-secondary" id="clearCheckersBtn">Clear Checker Info</button>
+        </div>
+        <div class="checker-datetime-bar">
+          <span class="checker-datetime-label">Date &amp; Time (Editable):</span>
+          <input type="date" class="checker-datetime-input" id="checkDateInput" title="Edit Date" />
+          <input type="time" class="checker-datetime-input" id="checkTimeInput" title="Edit Time" />
+          <button type="button" class="btn btn-secondary" id="resetDateTimeBtn">Use Current Time</button>
+        </div>
+        <div class="checker-grid">
+          <div class="checker-person">
+            <div class="checker-person-title">Checker 1</div>
+            <div class="checker-fields">
+              <input type="text" class="checker-input full-span" id="checker1Name" placeholder="Name..." />
+              <input type="text" class="checker-input" id="checker1Id" placeholder="ID Number..." />
+              <input type="text" class="checker-input" id="checker1Desig" placeholder="Designation (পদবী)..." />
+            </div>
+          </div>
+          <div class="checker-person">
+            <div class="checker-person-title">Checker 2</div>
+            <div class="checker-fields">
+              <input type="text" class="checker-input full-span" id="checker2Name" placeholder="Name..." />
+              <input type="text" class="checker-input" id="checker2Id" placeholder="ID Number..." />
+              <input type="text" class="checker-input" id="checker2Desig" placeholder="Designation (পদবী)..." />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="projects-stack" id="projectsContainer"></div>
+
+    </section>
+
+    <!-- IT Device Section -->
+    <section id="section-devices" class="view-section">
+      <div class="section-head">
+        <h2>IT Device Directory (1 – 20)</h2>
+      </div>
+      <div class="it-grid" id="itDeviceGrid"></div>
+    </section>
+
+    <!-- About Section -->
+    <section id="section-about" class="view-section">
+      <div class="info-card" style="margin-bottom: 1.35rem;">
+        <h2 style="margin-bottom: 0.6rem;">About NABIL INDUSTRIAL PARK</h2>
+        <p style="color: var(--muted);">
+          NABIL INDUSTRIAL PARK operates multiple agro-industrial, food processing, feed, cold storage, and transport units. This portal provides a centralized IT device checklist and daily status reporting workflow across all 10 operational units.
+        </p>
+      </div>
+
+      <div class="info-card">
+        <div class="section-head" style="margin-bottom: 0.85rem;">
+          <h2>IT Devices Description (1 – 20)</h2>
+          <input type="text" id="aboutDeviceSearch" class="checker-input" style="max-width: 280px;" placeholder="Search IT device..." />
+        </div>
+        <div class="it-grid" id="aboutDevicesGrid"></div>
+      </div>
+    </section>
+
+    <!-- Report Submit Section -->
+    <section id="section-reports" class="view-section">
+      <div class="reports-section" style="margin-top: 0;">
+        <div class="section-head" style="margin-bottom: 0;">
+          <h2>Submitted Reports (Date-Wise)</h2>
+          <div class="report-actions">
+            <select id="reportDateFilter" class="date-filter-select" title="Filter by Date">
+              <option value="all">All Dates</option>
+            </select>
+            <button type="button" class="btn btn-primary" id="exportAllPdfBtn">Download All PDF</button>
+            <button type="button" class="btn btn-danger" id="clearReportsBtn">Clear Reports</button>
+          </div>
+        </div>
+        <div class="reports-list" id="reportsList"></div>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="section-services" class="view-section">
+      <div class="section-head">
+        <h2>IT Service Issues (From Project Name)</h2>
+        <div class="services-toolbar">
+          <select id="serviceProjectFilter" class="date-filter-select" title="Filter by Project">
+            <option value="all">All Projects</option>
+          </select>
+          <select id="serviceSourceFilter" class="date-filter-select" title="Filter by Source">
+            <option value="active">Active Checklist Issues</option>
+            <option value="all">All (Active + Submitted)</option>
+            <option value="submitted">Submitted Reports Only</option>
+          </select>
+          <button type="button" class="btn btn-secondary" id="copyServicesBtn">Copy Service List</button>
+          <button type="button" class="btn btn-primary" id="exportServicesPdfBtn">Download Service PDF</button>
+        </div>
+      </div>
+
+      <div class="services-summary-bar" id="servicesSummaryBar"></div>
+      <div class="services-stack" id="servicesIssuesContainer"></div>
+
+      <div class="info-card">
+        <h2 style="margin-bottom: 0.4rem;">IT Department Services</h2>
+        <div class="info-grid">
+          <div class="sub-card">
+            <h3>Hardware &amp; Peripherals</h3>
+            <p>Preventive maintenance and troubleshooting for Desktops, Laptops, Printers, Scanners, and UPS units.</p>
+          </div>
+          <div class="sub-card">
+            <h3>Networking &amp; IP Telephony</h3>
+            <p>Router configuration, LAN/WAN uptime monitoring, and IP Phone / IP Printer support across all mills.</p>
+          </div>
+          <div class="sub-card">
+            <h3>CCTV &amp; Access Systems</h3>
+            <p>NVR, Camera, RFID Reader, and NIR Machine connectivity and daily health verification.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="section-contact" class="view-section">
+      <div class="info-card" style="margin-bottom: 1.35rem;">
+        <div class="checker-card-head">
+          <h2>IT Support Contacts (2 Persons)</h2>
+          <button type="button" class="btn btn-secondary" id="clearContactsBtn">Clear Contacts</button>
+        </div>
+        <div class="checker-grid">
+          <div class="checker-person">
+            <div class="checker-person-title">Contact Person 1</div>
+            <div class="checker-fields">
+              <input type="text" class="checker-input full-span" id="contact1Name" placeholder="Name..." />
+              <div class="contact-input-wrap">
+                <span class="contact-input-icon" style="color:#0284c7;" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                </span>
+                <input type="text" class="checker-input" id="contact1Mobile" placeholder="Mobile Number..." />
+              </div>
+              <div class="contact-input-wrap">
+                <span class="contact-input-icon" style="color:#16a34a;" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2zm5.79 14.01c-.24.68-1.41 1.3-1.95 1.38-.5.07-1.13.1-1.82-.12-.42-.13-.96-.31-1.65-.61-2.9-1.25-4.79-4.18-4.94-4.37-.14-.2-1.18-1.57-1.18-3 0-1.43.75-2.13 1.01-2.42.27-.29.58-.36.77-.36.19 0 .39 0 .56.01.18.01.42-.07.66.5.24.58.82 2 .89 2.15.07.14.12.31.02.5-.1.2-.15.31-.29.48-.15.17-.31.38-.44.51-.15.15-.3.31-.13.61.17.29.75 1.24 1.62 2.01 1.11.99 2.05 1.3 2.34 1.44.29.15.46.12.63-.07.17-.2.73-.85.92-1.14.19-.29.39-.24.65-.15.27.1 1.69.8 1.98.94.29.15.48.22.55.34.07.12.07.7-.17 1.38z"/></svg>
+                </span>
+                <input type="text" class="checker-input" id="contact1Whatsapp" placeholder="WhatsApp Number..." />
+              </div>
+              <div class="contact-input-wrap full-span">
+                <span class="contact-input-icon" style="color:#dc2626;" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                </span>
+                <input type="email" class="checker-input" id="contact1Email" placeholder="Email..." />
+              </div>
+            </div>
+            <div class="contact-quick-actions" id="contact1Links"></div>
+          </div>
+
+          <div class="checker-person">
+            <div class="checker-person-title">Contact Person 2</div>
+            <div class="checker-fields">
+              <input type="text" class="checker-input full-span" id="contact2Name" placeholder="Name..." />
+              <div class="contact-input-wrap">
+                <span class="contact-input-icon" style="color:#0284c7;" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                </span>
+                <input type="text" class="checker-input" id="contact2Mobile" placeholder="Mobile Number..." />
+              </div>
+              <div class="contact-input-wrap">
+                <span class="contact-input-icon" style="color:#16a34a;" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2zm5.79 14.01c-.24.68-1.41 1.3-1.95 1.38-.5.07-1.13.1-1.82-.12-.42-.13-.96-.31-1.65-.61-2.9-1.25-4.79-4.18-4.94-4.37-.14-.2-1.18-1.57-1.18-3 0-1.43.75-2.13 1.01-2.42.27-.29.58-.36.77-.36.19 0 .39 0 .56.01.18.01.42-.07.66.5.24.58.82 2 .89 2.15.07.14.12.31.02.5-.1.2-.15.31-.29.48-.15.17-.31.38-.44.51-.15.15-.3.31-.13.61.17.29.75 1.24 1.62 2.01 1.11.99 2.05 1.3 2.34 1.44.29.15.46.12.63-.07.17-.2.73-.85.92-1.14.19-.29.39-.24.65-.15.27.1 1.69.8 1.98.94.29.15.48.22.55.34.07.12.07.7-.17 1.38z"/></svg>
+                </span>
+                <input type="text" class="checker-input" id="contact2Whatsapp" placeholder="WhatsApp Number..." />
+              </div>
+              <div class="contact-input-wrap full-span">
+                <span class="contact-input-icon" style="color:#dc2626;" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                </span>
+                <input type="email" class="checker-input" id="contact2Email" placeholder="Email..." />
+              </div>
+            </div>
+            <div class="contact-quick-actions" id="contact2Links"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <h2 style="margin-bottom: 0.6rem;">Contact IT Support</h2>
+        <div class="info-grid">
+          <div class="sub-card">
+            <h3>IT Operations Desk</h3>
+            <p>NABIL INDUSTRIAL PARK — Central IT Department</p>
+          </div>
+          <div class="sub-card">
+            <h3>Support Hours</h3>
+            <p>Daily monitoring and on-site unit support across all shifts.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+    <div class="modal-backdrop" id="editReportModal">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h3 id="editModalTitle">Edit Report</h3>
+        <button type="button" class="btn btn-secondary" id="closeEditModalBtn">Close</button>
+      </div>
+      <div class="modal-body" id="editModalBody"></div>
+      <div class="modal-foot">
+        <button type="button" class="btn btn-secondary" id="cancelEditModalBtn">Cancel</button>
+        <button type="button" class="btn btn-primary" id="saveEditModalBtn">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <div id="printArea"></div>
+
+  <footer>
+    &copy; <span id="footerYear"></span> NABIL INDUSTRIAL PARK — IT Device Checklist Portal
+  </footer>
+
+  <script>
+    const PROJECTS = [
+      "Nabil Auto Rice Mill-1",
+      "Nabil Auto Rice Mill-2",
+      "Nabil Auto Flour Mill",
+      "Nabil Cold Storage",
+      "Nabil Naba foods",
+      "Nabil Feed Mill Ltd.",
+      "Nabil Edible Oil Mill",
+      "Nabil Consumer Products",
+      "Nabil Transport",
+      "Shimul Enterprise"
+    ];
+
+    const IT_DEVICES = [
+      "Desktop",
+      "Laptop",
+      "Monitor",
+      "Keyboard",
+      "Mouse",
+      "Mouse Pad",
+      "IP Phone",
+      "IP Printer",
+      "Printer",
+      "UPS",
+      "Scanner",
+      "RFID Reader",
+      "Router",
+      "TV",
+      "Camera",
+      "NIR Machine",
+      "NVR",
+      "TAB/ Mobile",
+      "Network",
+      "Network Device"
+    ];
+
+    const NO_EMP_DEVICES = new Set(["Network", "Network Device", "IP Printer", "Printer"]);
+    const PRINTER_DEVICES = new Set(["IP Printer", "Printer"]);
+
+    const STORAGE_KEY = "nabil_it_checklist_v1";
+    const REPORTS_KEY = "nabil_it_reports_v1";
+    const CHECKERS_KEY = "nabil_it_checkers_v1";
+    const CHECK_DATETIME_KEY = "nabil_it_datetime_v1";
+
+    let use24Hour = false;
+    let selectedProjectIndex = null;
+    let checklistState = loadJSON(STORAGE_KEY, {});
+    let reportsState = loadJSON(REPORTS_KEY, []);
+    let checkersState = loadJSON(CHECKERS_KEY, {
+      c1: { name: "", id: "", desig: "" },
+      c2: { name: "", id: "", desig: "" }
+    });
+
+    let customDateTimeState = loadJSON(CHECK_DATETIME_KEY, { date: "", time: "" });
+
+    function getCurrentDateInputValue() {
+      const now = new Date();
+      const y = now.getFullYear();
+      const m = String(now.getMonth() + 1).padStart(2, "0");
+      const d = String(now.getDate()).padStart(2, "0");
+      return `${y}-${m}-${d}`;
+    }
+
+    function getCurrentTimeInputValue() {
+      const now = new Date();
+      const hh = String(now.getHours()).padStart(2, "0");
+      const mm = String(now.getMinutes()).padStart(2, "0");
+      return `${hh}:${mm}`;
+    }
+
+    function getSelectedReportDateKey() {
+      const dateVal = (document.getElementById("checkDateInput")?.value || customDateTimeState.date || "").trim();
+      return dateVal || getCurrentDateInputValue();
+    }
+
+    function formatDateKeyLabel(dateKey) {
+      if (!dateKey || dateKey === "Unknown Date") return "Unknown Date";
+      const parsed = new Date(`${dateKey}T00:00:00`);
+      if (!isNaN(parsed.getTime())) {
+        return parsed.toLocaleDateString("en-US", {
+          weekday: "short",
+          year: "numeric",
+          month: "short",
+          day: "numeric"
+        });
+      }
+      return dateKey;
+    }
+
+    function getFormattedReportTimestamp() {
+      const dateVal = (document.getElementById("checkDateInput")?.value || customDateTimeState.date || "").trim();
+      const timeVal = (document.getElementById("checkTimeInput")?.value || customDateTimeState.time || "").trim();
+
+      if (dateVal || timeVal) {
+        const dStr = dateVal || getCurrentDateInputValue();
+        const tStr = timeVal || getCurrentTimeInputValue();
+        const parsed = new Date(`${dStr}T${tStr}:00`);
+        if (!isNaN(parsed.getTime())) {
+          return parsed.toLocaleString("en-US", {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: !use24Hour
+          });
+        }
+        return `${dStr} ${tStr}`;
+      }
+
+      return new Date().toLocaleString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: !use24Hour
+      });
+    }
+
+    function initCheckersForm() {
+      const dateEl = document.getElementById("checkDateInput");
+      const timeEl = document.getElementById("checkTimeInput");
+      const resetDtBtn = document.getElementById("resetDateTimeBtn");
+
+      if (dateEl && timeEl) {
+        dateEl.value = customDateTimeState.date || getCurrentDateInputValue();
+        timeEl.value = customDateTimeState.time || getCurrentTimeInputValue();
+
+        dateEl.addEventListener("change", () => {
+          customDateTimeState.date = dateEl.value;
+          saveJSON(CHECK_DATETIME_KEY, customDateTimeState);
+        });
+
+        timeEl.addEventListener("change", () => {
+          customDateTimeState.time = timeEl.value;
+          saveJSON(CHECK_DATETIME_KEY, customDateTimeState);
+        });
+
+        if (resetDtBtn) {
+          resetDtBtn.addEventListener("click", () => {
+            dateEl.value = getCurrentDateInputValue();
+            timeEl.value = getCurrentTimeInputValue();
+            customDateTimeState = { date: dateEl.value, time: timeEl.value };
+            saveJSON(CHECK_DATETIME_KEY, customDateTimeState);
+            showToast("Date & Time updated to current");
+          });
+        }
+      }
+
+      const map = [
+        ["checker1Name", "c1", "name"],
+        ["checker1Id", "c1", "id"],
+        ["checker1Desig", "c1", "desig"],
+        ["checker2Name", "c2", "name"],
+        ["checker2Id", "c2", "id"],
+        ["checker2Desig", "c2", "desig"]
+      ];
+      map.forEach(([elId, key, field]) => {
+        const el = document.getElementById(elId);
+        if (!el) return;
+        el.value = (checkersState[key] && checkersState[key][field]) || "";
+        el.addEventListener("input", () => {
+          checkersState[key] = checkersState[key] || { name: "", id: "", desig: "" };
+          checkersState[key][field] = el.value;
+          saveJSON(CHECKERS_KEY, checkersState);
+        });
+      });
+
+      const clearBtn = document.getElementById("clearCheckersBtn");
+      if (clearBtn) {
+        clearBtn.addEventListener("click", () => {
+          checkersState = {
+            c1: { name: "", id: "", desig: "" },
+            c2: { name: "", id: "", desig: "" }
+          };
+          saveJSON(CHECKERS_KEY, checkersState);
+          map.forEach(([elId]) => {
+            const el = document.getElementById(elId);
+            if (el) el.value = "";
+          });
+          showToast("Checker information cleared");
+        });
+      }
+    }
+
+    function getCheckersSnapshot() {
+      const clean = (obj) => ({
+        name: (obj && obj.name ? obj.name : "").trim() || "N/A",
+        id: (obj && obj.id ? obj.id : "").trim() || "N/A",
+        desig: (obj && obj.desig ? obj.desig : "").trim() || "N/A"
+      });
+      return {
+        c1: clean(checkersState.c1),
+        c2: clean(checkersState.c2)
+      };
+    }
+
+    const memoryStorage = {};
+
+    function loadJSON(key, fallback) {
+      try {
+        const raw = localStorage.getItem(key);
+        if (raw !== null) return JSON.parse(raw);
+      } catch (e) {
+        // Fallback to in-memory storage
+      }
+      return Object.prototype.hasOwnProperty.call(memoryStorage, key) ? memoryStorage[key] : fallback;
+    }
+
+    function saveJSON(key, value) {
+      memoryStorage[key] = value;
+      try {
+        localStorage.setItem(key, JSON.stringify(value));
+      } catch (e) {
+        // Ignore storage errors in restricted environments
+      }
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById("toast");
+      toast.textContent = msg;
+      toast.classList.add("show");
+      clearTimeout(showToast._timer);
+      showToast._timer = setTimeout(() => toast.classList.remove("show"), 2400);
+    }
+
+    // Live Date & Time
+    function updateDateTime() {
+      const now = new Date();
+      const datePart = now.toLocaleDateString("en-US", {
+        weekday: "short",
+        year: "numeric",
+        month: "short",
+        day: "numeric"
+      });
+      const timePart = now.toLocaleTimeString("en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: !use24Hour
+      });
+      document.getElementById("datetimeBtn").textContent = `${datePart} • ${timePart}`;
+    }
+
+    document.getElementById("datetimeBtn").addEventListener("click", () => {
+      use24Hour = !use24Hour;
+      updateDateTime();
+    });
+
+    document.getElementById("footerYear").textContent = new Date().getFullYear();
+    updateDateTime();
+    setInterval(updateDateTime, 1000);
+
+    // Navigation & Dropdowns
+    function closeAllDropdowns() {
+      document.getElementById("projectDropdownWrap").classList.remove("open");
+      document.getElementById("deviceDropdownWrap").classList.remove("open");
+    }
+
+    function switchSection(sectionName) {
+      document.querySelectorAll(".view-section").forEach((sec) => sec.classList.remove("active"));
+      document.getElementById(`section-${sectionName}`).classList.add("active");
+
+      document.querySelectorAll(".nav-link").forEach((btn) => btn.classList.remove("active"));
+      if (sectionName === "home") document.getElementById("navHome").classList.add("active");
+      else if (sectionName === "projects") document.getElementById("navProjectBtn").classList.add("active");
+      else if (sectionName === "devices") document.getElementById("navDeviceBtn").classList.add("active");
+      else {
+        const btn = document.querySelector(`.nav-link[data-view="${sectionName}"]`);
+        if (btn) btn.classList.add("active");
+      }
+
+      if (sectionName === "services") {
+        renderServices();
+      } else if (sectionName === "reports") {
+        renderReports();
+      }
+
+      closeAllDropdowns();
+      document.getElementById("mainNav").classList.remove("mobile-open");
+    }
+
+    document.getElementById("brandBtn").addEventListener("click", () => switchSection("home"));
+
+    document.querySelectorAll(".nav-link[data-view]").forEach((btn) => {
+      btn.addEventListener("click", () => switchSection(btn.dataset.view));
+    });
+
+    document.getElementById("menuToggle").addEventListener("click", () => {
+      document.getElementById("mainNav").classList.toggle("mobile-open");
+    });
+
+    document.getElementById("navProjectBtn").addEventListener("click", (e) => {
+      e.stopPropagation();
+      const wrap = document.getElementById("projectDropdownWrap");
+      const wasOpen = wrap.classList.contains("open");
+      closeAllDropdowns();
+      if (!wasOpen) wrap.classList.add("open");
+    });
+
+    document.getElementById("navDeviceBtn").addEventListener("click", (e) => {
+      e.stopPropagation();
+      const wrap = document.getElementById("deviceDropdownWrap");
+      const wasOpen = wrap.classList.contains("open");
+      closeAllDropdowns();
+      if (!wasOpen) wrap.classList.add("open");
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest("#projectDropdownWrap") && !e.target.closest("#deviceDropdownWrap")) {
+        closeAllDropdowns();
+      }
+    });
+
+    // Populate Dropdowns
+    const AUTH_KEY = "nabil_it_auth_v1";
+    const USERS_KEY = "nabil_it_users_v1";
+    const MAX_ADMINS = 2;
+
+    function normalizePhone(raw) {
+      const bn = "০১২৩৪৫৬৭৮৯";
+      const converted = String(raw || "").replace(/[০-৯]/g, (d) => String(bn.indexOf(d)));
+      return converted.replace(/[^0-9]/g, "");
+    }
+
+    function getCurrentSession() {
+      const s = loadJSON(AUTH_KEY, null);
+      return (s && s.loggedIn) ? s : null;
+    }
+
+    function isAdminSession() {
+      const s = getCurrentSession();
+      return Boolean(s && s.role === "admin");
+    }
+
+    function getAllowedProjectIndex() {
+      const s = getCurrentSession();
+      if (!s || s.role === "admin") return null;
+      const idx = PROJECTS.indexOf(s.project);
+      return idx >= 0 ? idx : 0;
+    }
+
+    function getVisibleProjectIndices() {
+      const allowed = getAllowedProjectIndex();
+      if (allowed !== null) return [allowed];
+      return PROJECTS.map((_, i) => i);
+    }
+
+    function buildProjectMenu() {
+      const projectMenu = document.getElementById("projectMenu");
+      if (!projectMenu) return;
+      projectMenu.innerHTML = "";
+      if (isAdminSession()) {
+        const allBtn = document.createElement("button");
+        allBtn.type = "button";
+        allBtn.className = "dropdown-item";
+        allBtn.style.fontWeight = "700";
+        allBtn.style.color = "#38bdf8";
+        allBtn.style.borderBottom = "1px solid #334155";
+        allBtn.style.marginBottom = "0.25rem";
+        allBtn.textContent = "All (All 10 Projects)";
+        allBtn.addEventListener("click", () => {
+          selectedProjectIndex = null;
+          renderProjects();
+          switchSection("projects");
+        });
+        projectMenu.appendChild(allBtn);
+      }
+      const visibleIndices = getVisibleProjectIndices();
+      visibleIndices.forEach((idx) => {
+        const name = PROJECTS[idx];
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "dropdown-item";
+        btn.textContent = `${idx + 1}. ${name}`;
+        btn.addEventListener("click", () => {
+          selectedProjectIndex = idx;
+          renderProjects();
+          switchSection("projects");
+        });
+        projectMenu.appendChild(btn);
+      });
+    }
+
+    function buildMenus() {
+      buildProjectMenu();
+
+      const deviceMenu = document.getElementById("deviceMenu");
+      IT_DEVICES.forEach((dev, idx) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "dropdown-item";
+        btn.textContent = `${idx + 1}. ${dev}`;
+        btn.addEventListener("click", () => {
+          switchSection("devices");
+          document.querySelectorAll(".it-card").forEach((c) => c.classList.remove("highlight"));
+          const target = document.getElementById(`it-device-card-${idx}`);
+          if (target) {
+            target.classList.add("highlight");
+            target.scrollIntoView({ behavior: "smooth", block: "center" });
+          }
+        });
+        deviceMenu.appendChild(btn);
+      });
+    }
+
+    const IT_DEVICE_DESCRIPTIONS = {
+      "Desktop": "Office and production workstation PC used for ERP, billing, reporting, and daily operations. Checked for OS boot, performance, and hardware health.",
+      "Laptop": "Portable computer assigned to managers, engineers, and field staff. Checked for battery backup, charger, display, and Wi-Fi/LAN connectivity.",
+      "Monitor": "Display screen connected to desktop workstations or CCTV monitoring desks. Checked for power, display clarity, and VGA/HDMI cable stability.",
+      "Keyboard": "Primary typing input device for workstations. Checked for stuck/non-responsive keys and USB/wireless connection.",
+      "Mouse": "Pointing input device for workstations. Checked for smooth cursor tracking, click responsiveness, and cable/receiver health.",
+      "Mouse Pad": "Desk surface pad ensuring accurate mouse tracking and ergonomic comfort. Checked for wear, tear, or replacement need.",
+      "IP Phone": "VoIP desk telephone for internal intercom and external office communication. Checked for dial tone, network registration, and audio clarity.",
+      "IP Printer": "Network-shared printer accessible across multiple workstations via IP address. Checked for toner level, paper feed, print quality, and LAN status.",
+      "Printer": "Direct USB/local printer for individual desks or counters. Checked for toner/ink refill, paper jam, driver status, and print output.",
+      "UPS": "Uninterruptible Power Supply protecting IT hardware from power cuts and voltage spikes. Checked for battery backup duration and alarm/fault LEDs.",
+      "Scanner": "Document scanner used for digitizing challans, invoices, and HR/admin records. Checked for scan clarity, feeder, and PC connection.",
+      "RFID Reader": "Access control and attendance/weighbridge card reader. Checked for card detection speed, beep/indicator response, and server sync.",
+      "Router": "Core/unit network router managing internet and inter-branch data routing. Checked for WAN/LAN link stability, speed, and power status.",
+      "TV": "Display television used for CCTV live monitoring, notice boards, or meeting rooms. Checked for power, HDMI input, and screen condition.",
+      "Camera": "IP/CCTV security camera monitoring mill gates, warehouses, and production floors. Checked for live video feed, night vision, and angle.",
+      "NIR Machine": "Near-Infrared (NIR) analyzer used in lab/quality control for grain, flour, and feed testing. Checked for power, calibration, and PC/network link.",
+      "NVR": "Network Video Recorder storing and managing CCTV camera feeds. Checked for hard disk recording status, channel uptime, and network access.",
+      "TAB/ Mobile": "Company-issued tablet or smartphone for field reporting, inventory, and supervision. Checked for charging, app sync, and mobile data/Wi-Fi.",
+      "Network": "Overall LAN/WAN internet and intranet connectivity across the unit. Checked for packet loss, latency, and internet availability.",
+      "Network Device": "Switches, media converters, access points, and fiber/patch infrastructure. Checked for port link lights, PoE power, and rack ventilation."
+    };
+
+    function buildAboutDevices(filterText = "") {
+      const grid = document.getElementById("aboutDevicesGrid");
+      if (!grid) return;
+      const q = filterText.trim().toLowerCase();
+      grid.innerHTML = "";
+      IT_DEVICES.forEach((dev, idx) => {
+        const desc = IT_DEVICE_DESCRIPTIONS[dev] || "Standard IT device monitored across all Nabil Industrial Park units.";
+        if (q && !dev.toLowerCase().includes(q) && !desc.toLowerCase().includes(q)) return;
+        const card = document.createElement("div");
+        card.className = "it-card";
+        card.innerHTML = `
+          <span class="it-num">Device #${idx + 1}</span>
+          <h3>${escapeHtml(dev)}</h3>
+          <p>${escapeHtml(desc)}</p>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // Build IT Device Directory
+    function buildDeviceDirectory() {
+      const grid = document.getElementById("itDeviceGrid");
+      grid.innerHTML = "";
+      IT_DEVICES.forEach((dev, idx) => {
+        const card = document.createElement("div");
+        card.className = "it-card";
+        card.id = `it-device-card-${idx}`;
+        card.innerHTML = `
+          <span class="it-num">Device #${idx + 1}</span>
+          <h3>${dev}</h3>
+          <p>Standard IT hardware monitored across all Nabil Industrial Park units.</p>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // Project Checklist Helpers
+    function getDeviceEntry(pIdx, dIdx) {
+      if (!checklistState[pIdx]) checklistState[pIdx] = {};
+      if (!checklistState[pIdx][dIdx]) {
+        checklistState[pIdx][dIdx] = {
+          status: null,
+          entries: [{ empId: "", empName: "", reason: "" }]
+        };
+      } else if (!Array.isArray(checklistState[pIdx][dIdx].entries) || checklistState[pIdx][dIdx].entries.length === 0) {
+        const old = checklistState[pIdx][dIdx];
+        old.entries = [{
+          empId: old.empId || "",
+          empName: old.empName || "",
+          reason: old.reason || ""
+        }];
+      }
+      return checklistState[pIdx][dIdx];
+    }
+
+    function updateProjectCounts(pIdx) {
+      let yesCount = 0;
+      let noCount = 0;
+      IT_DEVICES.forEach((_, dIdx) => {
+        const entry = getDeviceEntry(pIdx, dIdx);
+        if (entry.status === "yes") yesCount++;
+        else if (entry.status === "no") noCount++;
+      });
+      const pill = document.getElementById(`status-pill-${pIdx}`);
+      if (pill) {
+        pill.textContent = `Yes: ${yesCount} | No: ${noCount} / ${IT_DEVICES.length}`;
+      }
+    }
+
+    function renderProjects() {
+      const container = document.getElementById("projectsContainer");
+      const titleEl = document.getElementById("projectsTitle");
+      const showAllBtn = document.getElementById("showAllProjectsBtn");
+      const submitAllBtn = document.getElementById("submitAllProjectsBtn");
+      container.innerHTML = "";
+
+      const allowedIdx = getAllowedProjectIndex();
+      if (allowedIdx !== null) {
+        selectedProjectIndex = allowedIdx;
+        if (showAllBtn) showAllBtn.style.display = "none";
+        if (submitAllBtn) submitAllBtn.textContent = "Submit Report";
+      } else {
+        if (showAllBtn) showAllBtn.style.display = "";
+        if (submitAllBtn) submitAllBtn.textContent = "Submit All Reports";
+      }
+
+      const indices = allowedIdx !== null
+        ? [allowedIdx]
+        : (selectedProjectIndex !== null ? [selectedProjectIndex] : PROJECTS.map((_, i) => i));
+
+      titleEl.textContent = indices.length === 1
+        ? `${indices[0] + 1}. ${PROJECTS[indices[0]]}`
+        : "All Projects (1 – 10)";
+
+      indices.forEach((pIdx) => {
+        const projectName = PROJECTS[pIdx];
+        const card = document.createElement("div");
+        card.className = "project-card";
+
+        const head = document.createElement("div");
+        head.className = "project-card-head";
+        head.innerHTML = `
+          <h3>${pIdx + 1}. ${projectName}</h3>
+          <div class="project-controls">
+            <span class="status-pill" id="status-pill-${pIdx}">Yes: 0 | No: 0 / ${IT_DEVICES.length}</span>
+            <button type="button" class="btn btn-success" data-all-no="${pIdx}">All No</button>
+            <button type="button" class="btn btn-secondary" data-clear-proj="${pIdx}">Clear</button>
+          </div>
+        `;
+        card.appendChild(head);
+
+        const qBanner = document.createElement("div");
+        qBanner.className = "question-banner";
+        qBanner.textContent = "Are there any issues with the IT devices? (Select No if OK, or Yes and write the reason if there is an issue)";
+        card.appendChild(qBanner);
+
+        const grid = document.createElement("div");
+        grid.className = "device-grid";
+
+        IT_DEVICES.forEach((devName, dIdx) => {
+          const entry = getDeviceEntry(pIdx, dIdx);
+          const dCard = document.createElement("div");
+          dCard.className = "device-check-card" +
+            (entry.status === "yes" ? " state-yes" : entry.status === "no" ? " state-no" : "");
+
+          const row = document.createElement("div");
+          row.className = "device-row";
+
+          const label = document.createElement("span");
+          label.className = "device-label";
+          label.textContent = `${dIdx + 1}. ${devName}`;
+
+          const yn = document.createElement("div");
+          yn.className = "yn-group";
+
+          const yesLabel = document.createElement("label");
+          yesLabel.className = "yn-option yes";
+          const yesCb = document.createElement("input");
+          yesCb.type = "checkbox";
+          yesCb.checked = entry.status === "yes";
+          yesLabel.appendChild(yesCb);
+          yesLabel.appendChild(document.createTextNode("Yes"));
+
+          const noLabel = document.createElement("label");
+          noLabel.className = "yn-option no";
+          const noCb = document.createElement("input");
+          noCb.type = "checkbox";
+          noCb.checked = entry.status === "no";
+          noLabel.appendChild(noCb);
+          noLabel.appendChild(document.createTextNode("No"));
+
+          yn.appendChild(yesLabel);
+          yn.appendChild(noLabel);
+          row.appendChild(label);
+          row.appendChild(yn);
+          dCard.appendChild(row);
+
+          const reasonWrap = document.createElement("div");
+          reasonWrap.className = "reason-wrap";
+          dCard.appendChild(reasonWrap);
+
+          function renderReasonEntries(focusLast) {
+            reasonWrap.innerHTML = "";
+            entry.entries.forEach((item, eIdx) => {
+              const box = document.createElement("div");
+              box.className = "reason-entry";
+
+              if (entry.entries.length > 1) {
+                const eHead = document.createElement("div");
+                eHead.className = "reason-entry-head";
+                eHead.innerHTML = `<span>Issue #${eIdx + 1}</span>`;
+                const remBtn = document.createElement("button");
+                remBtn.type = "button";
+                remBtn.className = "remove-entry-btn";
+                remBtn.textContent = "Remove";
+                remBtn.addEventListener("click", () => {
+                  entry.entries.splice(eIdx, 1);
+                  saveJSON(STORAGE_KEY, checklistState);
+                  renderReasonEntries(false);
+                });
+                eHead.appendChild(remBtn);
+                box.appendChild(eHead);
+              }
+
+              const skipEmp = NO_EMP_DEVICES.has(devName);
+              const isPrinter = PRINTER_DEVICES.has(devName);
+              let firstFocusEl = null;
+
+              if (isPrinter) {
+                if (!item.issueType) item.issueType = "Printer Problem";
+                const typeGroup = document.createElement("div");
+                typeGroup.className = "printer-type-group";
+                const radioName = `ptype-${pIdx}-${dIdx}-${eIdx}`;
+
+                ["Toner Refill", "Printer Problem"].forEach((optLabel) => {
+                  const lbl = document.createElement("label");
+                  lbl.className = "printer-type-option" + (item.issueType === optLabel ? " selected" : "");
+                  const rb = document.createElement("input");
+                  rb.type = "radio";
+                  rb.name = radioName;
+                  rb.value = optLabel;
+                  rb.checked = item.issueType === optLabel;
+                  rb.addEventListener("change", () => {
+                    item.issueType = optLabel;
+                    saveJSON(STORAGE_KEY, checklistState);
+                    updateServicesBadge();
+                    renderReasonEntries(optLabel === "Printer Problem");
+                  });
+                  lbl.appendChild(rb);
+                  lbl.appendChild(document.createTextNode(optLabel));
+                  typeGroup.appendChild(lbl);
+                });
+                box.appendChild(typeGroup);
+              }
+
+              if (!skipEmp) {
+                const metaRow = document.createElement("div");
+                metaRow.className = "reason-meta-row";
+
+                const empIdInput = document.createElement("input");
+                empIdInput.type = "text";
+                empIdInput.className = "reason-input";
+                empIdInput.placeholder = "ID Number...";
+                empIdInput.value = item.empId || "";
+                empIdInput.addEventListener("input", () => {
+                  item.empId = empIdInput.value;
+                  saveJSON(STORAGE_KEY, checklistState);
+                  updateServicesBadge();
+                });
+
+                const empNameInput = document.createElement("input");
+                empNameInput.type = "text";
+                empNameInput.className = "reason-input";
+                empNameInput.placeholder = "Employee Name...";
+                empNameInput.value = item.empName || "";
+                empNameInput.addEventListener("input", () => {
+                  item.empName = empNameInput.value;
+                  saveJSON(STORAGE_KEY, checklistState);
+                  updateServicesBadge();
+                });
+
+                metaRow.appendChild(empIdInput);
+                metaRow.appendChild(empNameInput);
+                box.appendChild(metaRow);
+                firstFocusEl = empIdInput;
+              }
+
+              const hideReasonForRefill = isPrinter && item.issueType === "Toner Refill";
+              if (!hideReasonForRefill) {
+                const reasonInput = document.createElement("input");
+                reasonInput.type = "text";
+                reasonInput.className = "reason-input";
+                reasonInput.placeholder = "Write reason...";
+                reasonInput.value = item.reason || "";
+                reasonInput.addEventListener("input", () => {
+                  item.reason = reasonInput.value;
+                  saveJSON(STORAGE_KEY, checklistState);
+                  updateServicesBadge();
+                });
+
+                if (!firstFocusEl) firstFocusEl = reasonInput;
+
+                box.appendChild(reasonInput);
+              }
+              reasonWrap.appendChild(box);
+
+              if (focusLast && eIdx === entry.entries.length - 1 && firstFocusEl) {
+                setTimeout(() => firstFocusEl.focus(), 0);
+              }
+            });
+
+            const addMoreBtn = document.createElement("button");
+            addMoreBtn.type = "button";
+            addMoreBtn.className = "add-more-btn";
+            addMoreBtn.textContent = "+ Add More";
+            addMoreBtn.addEventListener("click", () => {
+              entry.entries.push({ empId: "", empName: "", reason: "" });
+              saveJSON(STORAGE_KEY, checklistState);
+              renderReasonEntries(true);
+            });
+            reasonWrap.appendChild(addMoreBtn);
+          }
+
+          renderReasonEntries(false);
+
+          yesCb.addEventListener("change", () => {
+            if (yesCb.checked) {
+              noCb.checked = false;
+              entry.status = "yes";
+              dCard.classList.add("state-yes");
+              dCard.classList.remove("state-no");
+              renderReasonEntries(true);
+            } else {
+              entry.status = null;
+              dCard.classList.remove("state-yes");
+            }
+            saveJSON(STORAGE_KEY, checklistState);
+            updateProjectCounts(pIdx);
+            updateServicesBadge();
+          });
+
+          noCb.addEventListener("change", () => {
+            if (noCb.checked) {
+              yesCb.checked = false;
+              entry.status = "no";
+              dCard.classList.add("state-no");
+              dCard.classList.remove("state-yes");
+            } else {
+              entry.status = null;
+              dCard.classList.remove("state-no");
+            }
+            saveJSON(STORAGE_KEY, checklistState);
+            updateProjectCounts(pIdx);
+            updateServicesBadge();
+          });
+
+          grid.appendChild(dCard);
+        });
+
+        card.appendChild(grid);
+
+        const footer = document.createElement("div");
+        footer.className = "project-footer";
+        const submitBtn = document.createElement("button");
+        submitBtn.type = "button";
+        submitBtn.className = "btn btn-primary";
+        submitBtn.textContent = "Submit Report";
+        submitBtn.addEventListener("click", () => submitProjectReport(pIdx));
+        footer.appendChild(submitBtn);
+        card.appendChild(footer);
+
+        container.appendChild(card);
+        updateProjectCounts(pIdx);
+      });
+
+      container.querySelectorAll("[data-all-no]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const pIdx = Number(btn.dataset.allNo);
+          IT_DEVICES.forEach((_, dIdx) => {
+            checklistState[pIdx] = checklistState[pIdx] || {};
+            checklistState[pIdx][dIdx] = { status: "no", entries: [{ empId: "", empName: "", reason: "" }] };
+          });
+          saveJSON(STORAGE_KEY, checklistState);
+          renderProjects();
+          showToast(`All ${IT_DEVICES.length} devices marked No for ${PROJECTS[pIdx]}`);
+        });
+      });
+
+      container.querySelectorAll("[data-clear-proj]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const pIdx = Number(btn.dataset.clearProj);
+          checklistState[pIdx] = {};
+          saveJSON(STORAGE_KEY, checklistState);
+          renderProjects();
+          showToast(`Cleared checklist for ${PROJECTS[pIdx]}`);
+        });
+      });
+    }
+
+    document.getElementById("showAllProjectsBtn").addEventListener("click", () => {
+      const allowedIdx = getAllowedProjectIndex();
+      selectedProjectIndex = allowedIdx !== null ? allowedIdx : null;
+      renderProjects();
+    });
+
+    document.getElementById("goToReportsBtn").addEventListener("click", () => {
+      switchSection("reports");
+    });
+
+    document.getElementById("submitAllProjectsBtn").addEventListener("click", () => {
+      const allowedIdx = getAllowedProjectIndex();
+      const indices = allowedIdx !== null
+        ? [allowedIdx]
+        : (selectedProjectIndex !== null ? [selectedProjectIndex] : PROJECTS.map((_, i) => i));
+      indices.forEach((pIdx) => submitProjectReport(pIdx));
+      showToast(`Submitted ${indices.length} project report(s)`);
+    });
+
+    function buildProjectReportSnapshot(pIdx) {
+      const projectName = `${pIdx + 1}. ${PROJECTS[pIdx]}`;
+      let yesCount = 0;
+      let noCount = 0;
+      let pendingCount = 0;
+      const issues = [];
+      const issueDetails = [];
+
+      IT_DEVICES.forEach((devName, dIdx) => {
+        const entry = getDeviceEntry(pIdx, dIdx);
+        if (entry.status === "no") {
+          noCount++;
+        } else if (entry.status === "yes") {
+          yesCount++;
+          const list = Array.isArray(entry.entries) && entry.entries.length > 0
+            ? entry.entries
+            : [{ empId: entry.empId || "", empName: entry.empName || "", reason: entry.reason || "" }];
+          const skipEmp = NO_EMP_DEVICES.has(devName);
+          const isPrinter = PRINTER_DEVICES.has(devName);
+          list.forEach((item, idx) => {
+            const isRefill = isPrinter && item.issueType === "Toner Refill";
+            const reasonText = isRefill ? "Toner Refill" : ((item.reason || "").trim() || "No reason provided");
+            const suffix = list.length > 1 ? ` (#${idx + 1})` : "";
+            const typeTag = isPrinter ? ` [${item.issueType || "Printer Problem"}]` : "";
+            const devLabel = `${dIdx + 1}. ${devName}${typeTag}${suffix}`;
+            if (skipEmp) {
+              issues.push(`${devLabel}: ${reasonText}`);
+              issueDetails.push({
+                device: devLabel,
+                empId: "—",
+                empName: "—",
+                reason: reasonText
+              });
+            } else {
+              const empId = (item.empId || "").trim() || "N/A";
+              const empName = (item.empName || "").trim() || "N/A";
+              issues.push(`${devLabel} (ID: ${empId}, Employee: ${empName}): ${reasonText}`);
+              issueDetails.push({
+                device: devLabel,
+                empId,
+                empName,
+                reason: reasonText
+              });
+            }
+          });
+        } else {
+          pendingCount++;
+        }
+      });
+
+      const dateKey = getSelectedReportDateKey();
+      return {
+        dateKey,
+        dateLabel: formatDateKeyLabel(dateKey),
+        timestamp: getFormattedReportTimestamp(),
+        projectName,
+        checkers: getCheckersSnapshot(),
+        yesCount,
+        noCount,
+        pendingCount,
+        issues,
+        issueDetails
+      };
+    }
+
+    function upsertDailyReport(pIdx, extraServicedItem) {
+      const snapshot = buildProjectReportSnapshot(pIdx);
+      const existingIdx = reportsState.findIndex(
+        (r) => resolveReportDateKey(r) === snapshot.dateKey && r.projectName === snapshot.projectName
+      );
+
+      if (existingIdx !== -1) {
+        const existing = reportsState[existingIdx];
+        const prevServiced = Array.isArray(existing.servicedItems) ? existing.servicedItems : [];
+        if (extraServicedItem) {
+          prevServiced.push(extraServicedItem);
+        }
+        reportsState[existingIdx] = {
+          ...existing,
+          ...snapshot,
+          servicedItems: prevServiced
+        };
+        saveJSON(REPORTS_KEY, reportsState);
+        renderReports();
+        return { updated: true, report: reportsState[existingIdx] };
+      } else {
+        const newReport = {
+          id: Date.now() + Math.floor(Math.random() * 1000),
+          ...snapshot,
+          servicedItems: extraServicedItem ? [extraServicedItem] : []
+        };
+        reportsState.unshift(newReport);
+        saveJSON(REPORTS_KEY, reportsState);
+        renderReports();
+        return { updated: false, report: newReport };
+      }
+    }
+
+    function submitProjectReport(pIdx) {
+      const res = upsertDailyReport(pIdx, null);
+      const msg = res.updated
+        ? `Daily report updated for ${res.report.projectName}`
+        : `Report submitted for ${res.report.projectName}`;
+      showToast(msg);
+    }
+
+    function copyTextToClipboard(text) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(
+          () => showToast("Report copied to clipboard"),
+          () => fallbackCopy(text)
+        );
+      } else {
+        fallbackCopy(text);
+      }
+    }
+
+    function fallbackCopy(text) {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      try {
+        document.execCommand("copy");
+        showToast("Report copied to clipboard");
+      } catch (e) {
+        showToast("Unable to copy automatically");
+      }
+      document.body.removeChild(ta);
+    }
+
+    function resolveReportDateKey(rep) {
+      if (rep.dateKey) return rep.dateKey;
+      const d = new Date(rep.timestamp);
+      if (!isNaN(d.getTime())) {
+        const y = d.getFullYear();
+        const m = String(d.getMonth() + 1).padStart(2, "0");
+        const day = String(d.getDate()).padStart(2, "0");
+        return `${y}-${m}-${day}`;
+      }
+      return "Unknown Date";
+    }
+
+    function buildReportItemElement(rep) {
+      const item = document.createElement("div");
+      item.className = "report-item";
+
+      const head = document.createElement("div");
+      head.className = "report-item-head";
+      head.innerHTML = `
+        <div>
+          <strong>${escapeHtml(rep.projectName)}</strong>
+          <div class="report-meta">${escapeHtml(rep.timestamp)} • Yes: ${rep.yesCount} | No: ${rep.noCount} | Unchecked: ${rep.pendingCount}</div>
+        </div>
+      `;
+
+      const copyBtn = document.createElement("button");
+      copyBtn.type = "button";
+      copyBtn.className = "btn btn-secondary";
+      copyBtn.textContent = "Copy Report";
+      copyBtn.addEventListener("click", () => {
+        const c1 = rep.checkers && rep.checkers.c1 ? rep.checkers.c1 : { name: "N/A", id: "N/A", desig: "N/A" };
+        const c2 = rep.checkers && rep.checkers.c2 ? rep.checkers.c2 : { name: "N/A", id: "N/A", desig: "N/A" };
+        const lines = [
+          `NABIL INDUSTRIAL PARK — IT Device Report`,
+          `Project: ${rep.projectName}`,
+          `Date & Time: ${rep.timestamp}`,
+          `Checked By 1: ${c1.name} (ID: ${c1.id}, Designation: ${c1.desig})`,
+          `Checked By 2: ${c2.name} (ID: ${c2.id}, Designation: ${c2.desig})`,
+          `Summary: Yes=${rep.yesCount}, No=${rep.noCount}, Unchecked=${rep.pendingCount}`
+        ];
+        if (rep.issues.length > 0) {
+          lines.push(`Issues:`);
+          rep.issues.forEach((iss) => lines.push(`- ${iss}`));
+        } else {
+          lines.push(`Issues: None`);
+        }
+        if (Array.isArray(rep.servicedItems) && rep.servicedItems.length > 0) {
+          lines.push(`Serviced / Resolved:`);
+          rep.servicedItems.forEach((s) => {
+            const empInfo = (s.empId && s.empId !== "—") ? ` (ID: ${s.empId}, Employee: ${s.empName})` : "";
+            lines.push(`- ${s.device}${empInfo}: ${s.reason} [Serviced: ${s.servicedAt || ""}]`);
+          });
+        }
+        copyTextToClipboard(lines.join("\n"));
+      });
+
+      const actionsWrap = document.createElement("div");
+      actionsWrap.className = "report-actions";
+
+      const editBtn = document.createElement("button");
+      editBtn.type = "button";
+      editBtn.className = "btn btn-secondary";
+      editBtn.textContent = "Edit Report";
+      editBtn.addEventListener("click", () => openEditReportModal(rep.id));
+
+      const pdfBtn = document.createElement("button");
+      pdfBtn.type = "button";
+      pdfBtn.className = "btn btn-primary";
+      pdfBtn.textContent = "Download PDF";
+      pdfBtn.addEventListener("click", () => exportReportsToPDF([rep]));
+
+      actionsWrap.appendChild(editBtn);
+      actionsWrap.appendChild(pdfBtn);
+      actionsWrap.appendChild(copyBtn);
+      head.appendChild(actionsWrap);
+      item.appendChild(head);
+
+      if (rep.checkers) {
+        const c1 = rep.checkers.c1 || { name: "N/A", id: "N/A", desig: "N/A" };
+        const c2 = rep.checkers.c2 || { name: "N/A", id: "N/A", desig: "N/A" };
+        const chkDiv = document.createElement("div");
+        chkDiv.className = "report-checkers";
+        chkDiv.innerHTML = `
+          <strong>Checked By:</strong>
+          1) ${escapeHtml(c1.name)} (ID: ${escapeHtml(c1.id)}, ${escapeHtml(c1.desig)}) &nbsp;|&nbsp;
+          2) ${escapeHtml(c2.name)} (ID: ${escapeHtml(c2.id)}, ${escapeHtml(c2.desig)})
+        `;
+        item.appendChild(chkDiv);
+      }
+
+      if (rep.issues.length > 0) {
+        const ul = document.createElement("ul");
+        ul.className = "report-issues";
+        rep.issues.forEach((iss) => {
+          const li = document.createElement("li");
+          li.textContent = iss;
+          ul.appendChild(li);
+        });
+        item.appendChild(ul);
+      }
+
+      if (Array.isArray(rep.servicedItems) && rep.servicedItems.length > 0) {
+        const servBox = document.createElement("div");
+        servBox.className = "report-serviced";
+        servBox.innerHTML = `<strong>Serviced / Resolved (${rep.servicedItems.length}):</strong>`;
+        const ul = document.createElement("ul");
+        rep.servicedItems.forEach((s) => {
+          const li = document.createElement("li");
+          const empPart = (s.empId && s.empId !== "—") ? ` (ID: ${s.empId}, Employee: ${s.empName})` : "";
+          li.textContent = `${s.device}${empPart}: ${s.reason} — Serviced at ${s.servicedAt || "N/A"}`;
+          ul.appendChild(li);
+        });
+        servBox.appendChild(ul);
+        item.appendChild(servBox);
+      }
+
+      return item;
+    }
+
+    function updateReportsBadge() {
+      const badge = document.getElementById("reportsNavBadge");
+      if (!badge) return;
+      if (reportsState.length > 0) {
+        badge.textContent = reportsState.length;
+        badge.style.display = "inline-flex";
+      } else {
+        badge.style.display = "none";
+      }
+    }
+
+    function getVisibleReports() {
+      const allowedIdx = getAllowedProjectIndex();
+      if (allowedIdx === null) return reportsState;
+      const targetName = `${allowedIdx + 1}. ${PROJECTS[allowedIdx]}`;
+      return reportsState.filter((r) => r.projectName === targetName);
+    }
+
+    function renderReports() {
+      const visibleReports = getVisibleReports();
+      const badge = document.getElementById("reportsNavBadge");
+      if (badge) {
+        if (visibleReports.length > 0) {
+          badge.textContent = visibleReports.length;
+          badge.style.display = "inline-flex";
+        } else {
+          badge.style.display = "none";
+        }
+      }
+      const list = document.getElementById("reportsList");
+      const filterEl = document.getElementById("reportDateFilter");
+      list.innerHTML = "";
+
+      // Group reports by dateKey
+      const groups = {};
+      visibleReports.forEach((rep) => {
+        const key = resolveReportDateKey(rep);
+        if (!groups[key]) groups[key] = [];
+        groups[key].push(rep);
+      });
+
+      const sortedKeys = Object.keys(groups).sort((a, b) => b.localeCompare(a));
+
+      if (filterEl) {
+        const prevVal = filterEl.value || "all";
+        filterEl.innerHTML = `<option value="all">All Dates (${visibleReports.length})</option>`;
+        sortedKeys.forEach((key) => {
+          const opt = document.createElement("option");
+          opt.value = key;
+          opt.textContent = `${formatDateKeyLabel(key)} (${groups[key].length})`;
+          filterEl.appendChild(opt);
+        });
+        filterEl.value = sortedKeys.includes(prevVal) ? prevVal : "all";
+      }
+
+      if (visibleReports.length === 0) {
+        const empty = document.createElement("p");
+        empty.style.color = "var(--muted)";
+        empty.style.fontSize = "0.9rem";
+        empty.textContent = "No reports submitted yet.";
+        list.appendChild(empty);
+        return;
+      }
+
+      const selectedKey = filterEl ? filterEl.value : "all";
+      const keysToShow = selectedKey === "all" ? sortedKeys : sortedKeys.filter((k) => k === selectedKey);
+
+      keysToShow.forEach((key) => {
+        const dateReps = groups[key];
+        const groupCard = document.createElement("div");
+        groupCard.className = "date-group-card";
+
+        const totalYes = dateReps.reduce((sum, r) => sum + (r.yesCount || 0), 0);
+        const totalNo = dateReps.reduce((sum, r) => sum + (r.noCount || 0), 0);
+        const totalServiced = dateReps.reduce((sum, r) => sum + (Array.isArray(r.servicedItems) ? r.servicedItems.length : 0), 0);
+
+        const groupHead = document.createElement("div");
+        groupHead.className = "date-group-head";
+        groupHead.innerHTML = `<span class="date-group-title">${escapeHtml(formatDateKeyLabel(key))} — ${dateReps.length} Project${dateReps.length > 1 ? "s" : ""} | Issues: ${totalYes} | Serviced: ${totalServiced} | OK: ${totalNo}</span>`;
+
+        const dateActions = document.createElement("div");
+        dateActions.className = "report-actions";
+
+        const copyDateBtn = document.createElement("button");
+        copyDateBtn.type = "button";
+        copyDateBtn.className = "btn btn-secondary";
+        copyDateBtn.textContent = "Copy Date Report";
+        copyDateBtn.addEventListener("click", () => {
+          const lines = [
+            `NABIL INDUSTRIAL PARK — Combined Daily IT Report`,
+            `Date: ${formatDateKeyLabel(key)} (${dateReps.length} Project${dateReps.length > 1 ? "s" : ""})`,
+            `Totals: Issues=${totalYes}, Serviced=${totalServiced}, OK=${totalNo}`,
+            ""
+          ];
+          dateReps.forEach((rep) => {
+            lines.push(`=== ${rep.projectName} (${rep.timestamp}) ===`);
+            if (rep.issues && rep.issues.length > 0) {
+              lines.push("Issues:");
+              rep.issues.forEach((iss) => lines.push(`  - ${iss}`));
+            } else {
+              lines.push("Issues: None");
+            }
+            if (Array.isArray(rep.servicedItems) && rep.servicedItems.length > 0) {
+              lines.push("Serviced / Resolved:");
+              rep.servicedItems.forEach((s) => {
+                const empInfo = (s.empId && s.empId !== "—") ? ` (ID: ${s.empId}, Employee: ${s.empName})` : "";
+                lines.push(`  - ${s.device}${empInfo}: ${s.reason} [Serviced: ${s.servicedAt || ""}]`);
+              });
+            }
+            lines.push("");
+          });
+          copyTextToClipboard(lines.join("\n"));
+        });
+
+        const datePdfBtn = document.createElement("button");
+        datePdfBtn.type = "button";
+        datePdfBtn.className = "btn btn-primary";
+        datePdfBtn.textContent = "Download Date PDF";
+        datePdfBtn.addEventListener("click", () => exportReportsToPDF(dateReps));
+
+        dateActions.appendChild(copyDateBtn);
+        dateActions.appendChild(datePdfBtn);
+        groupHead.appendChild(dateActions);
+
+        const groupBody = document.createElement("div");
+        groupBody.className = "date-group-body";
+
+        // Combined Date-Wise Summary of all Issues & Serviced Items together
+        const combinedIssues = [];
+        const combinedServiced = [];
+        dateReps.forEach((rep) => {
+          if (Array.isArray(rep.issues)) {
+            rep.issues.forEach((iss) => combinedIssues.push(`[${rep.projectName}] ${iss}`));
+          }
+          if (Array.isArray(rep.servicedItems)) {
+            rep.servicedItems.forEach((s) => {
+              const empPart = (s.empId && s.empId !== "—") ? ` (ID: ${s.empId}, Employee: ${s.empName})` : "";
+              combinedServiced.push(`[${rep.projectName}] ${s.device}${empPart}: ${s.reason} — Serviced at ${s.servicedAt || "N/A"}`);
+            });
+          }
+        });
+
+        if (combinedIssues.length > 0 || combinedServiced.length > 0) {
+          const consBox = document.createElement("div");
+          consBox.className = "date-consolidated-box";
+          let consHtml = `<div class="date-consolidated-title">Combined Summary for ${escapeHtml(formatDateKeyLabel(key))}</div>`;
+          if (combinedIssues.length > 0) {
+            consHtml += `<div style="color:#991b1b; font-weight:700; margin-top:4px;">All Issues (${combinedIssues.length}):</div><ul class="date-consolidated-list" style="color:#991b1b;">` +
+              combinedIssues.map((x) => `<li>${escapeHtml(x)}</li>`).join("") + `</ul>`;
+          }
+          if (combinedServiced.length > 0) {
+            consHtml += `<div style="color:#065f46; font-weight:700; margin-top:6px;">All Serviced / Resolved (${combinedServiced.length}):</div><ul class="date-consolidated-list" style="color:#065f46;">` +
+              combinedServiced.map((x) => `<li>${escapeHtml(x)}</li>`).join("") + `</ul>`;
+          }
+          consBox.innerHTML = consHtml;
+          groupBody.appendChild(consBox);
+        }
+
+        dateReps.forEach((rep) => groupBody.appendChild(buildReportItemElement(rep)));
+
+        groupCard.appendChild(groupHead);
+        groupCard.appendChild(groupBody);
+        list.appendChild(groupCard);
+      });
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    function exportReportsToPDF(reportsToPrint) {
+      if (!reportsToPrint || reportsToPrint.length === 0) {
+        showToast("No submitted reports to export");
+        return;
+      }
+
+      const printArea = document.getElementById("printArea");
+      const generatedAt = new Date().toLocaleString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: !use24Hour
+      });
+
+      const blocksHtml = reportsToPrint.map((rep) => {
+        let issuesHtml = `<p class="pdf-no-issue">No device issues reported.</p>`;
+        if (rep.issueDetails && rep.issueDetails.length > 0) {
+          const rows = rep.issueDetails.map((d) => `
+            <tr>
+              <td>${escapeHtml(d.device)}</td>
+              <td>${escapeHtml(d.empId)}</td>
+              <td>${escapeHtml(d.empName)}</td>
+              <td>${escapeHtml(d.reason)}</td>
+            </tr>
+          `).join("");
+          issuesHtml = `
+            <table class="pdf-issues-table">
+              <thead>
+                <tr>
+                  <th>IT Device</th>
+                  <th>ID Number</th>
+                  <th>Employee Name</th>
+                  <th>Reason / Issue</th>
+                </tr>
+              </thead>
+              <tbody>${rows}</tbody>
+            </table>
+          `;
+        } else if (rep.issues && rep.issues.length > 0) {
+          const listItems = rep.issues.map((iss) => `<li>${escapeHtml(iss)}</li>`).join("");
+          issuesHtml = `<ul style="padding-left: 18px; font-size: 9pt; color: #991b1b;">${listItems}</ul>`;
+        }
+
+        const c1 = rep.checkers && rep.checkers.c1 ? rep.checkers.c1 : { name: "N/A", id: "N/A", desig: "N/A" };
+        const c2 = rep.checkers && rep.checkers.c2 ? rep.checkers.c2 : { name: "N/A", id: "N/A", desig: "N/A" };
+        const checkersHtml = `
+          <div class="pdf-checkers-box">
+            <div class="pdf-checker-item">
+              <strong>Checker 1:</strong> ${escapeHtml(c1.name)}<br/>
+              ID: ${escapeHtml(c1.id)} &bull; Designation: ${escapeHtml(c1.desig)}
+            </div>
+            <div class="pdf-checker-item">
+              <strong>Checker 2:</strong> ${escapeHtml(c2.name)}<br/>
+              ID: ${escapeHtml(c2.id)} &bull; Designation: ${escapeHtml(c2.desig)}
+            </div>
+          </div>
+        `;
+        let servicedHtml = "";
+        if (Array.isArray(rep.servicedItems) && rep.servicedItems.length > 0) {
+          const sRows = rep.servicedItems.map((s) => `
+            <tr>
+              <td>${escapeHtml(s.device)}</td>
+              <td>${escapeHtml(s.empId || "—")}</td>
+              <td>${escapeHtml(s.empName || "—")}</td>
+              <td>${escapeHtml(s.reason || "")}</td>
+              <td>${escapeHtml(s.servicedAt || "")}</td>
+            </tr>
+          `).join("");
+          servicedHtml = `
+            <div style="margin-top:8px; font-size:9pt; font-weight:700; color:#065f46;">Serviced / Resolved Items:</div>
+            <table class="pdf-issues-table">
+              <thead>
+                <tr>
+                  <th>IT Device</th>
+                  <th>ID Number</th>
+                  <th>Employee Name</th>
+                  <th>Reason / Issue</th>
+                  <th>Serviced At</th>
+                </tr>
+              </thead>
+              <tbody>${sRows}</tbody>
+            </table>
+          `;
+        }
+
+        return `
+          <div class="pdf-report-block">
+            <div class="pdf-report-title">${escapeHtml(rep.projectName)}</div>
+            <div class="pdf-report-meta">
+              Submitted: ${escapeHtml(rep.timestamp)} &bull;
+              Yes: ${rep.yesCount} | No: ${rep.noCount} | Unchecked: ${rep.pendingCount}
+            </div>
+            ${checkersHtml}
+            ${issuesHtml}
+            ${servicedHtml}
+          </div>
+        `;
+      }).join("");
+
+      printArea.innerHTML = `
+        <div class="pdf-header">
+          <div>
+            <h1>NABIL INDUSTRIAL PARK</h1>
+            <p>IT Device &amp; Project Status Report</p>
+          </div>
+          <p>Generated: ${escapeHtml(generatedAt)}</p>
+        </div>
+        ${blocksHtml}
+      `;
+
+      window.print();
+    }
+
+    document.getElementById("reportDateFilter").addEventListener("change", () => {
+      renderReports();
+    });
+
+    document.getElementById("exportAllPdfBtn").addEventListener("click", () => {
+      const selectedKey = document.getElementById("reportDateFilter")?.value || "all";
+      const toExport = selectedKey === "all"
+        ? reportsState
+        : reportsState.filter((r) => resolveReportDateKey(r) === selectedKey);
+      exportReportsToPDF(toExport);
+    });
+
+    document.getElementById("clearReportsBtn").addEventListener("click", () => {
+      reportsState = [];
+      saveJSON(REPORTS_KEY, reportsState);
+      renderReports();
+      showToast("All submitted reports cleared");
+    });
+
+    // Services Issues Queue (Synced from Project Name)
+    function getActiveChecklistIssues() {
+      const items = [];
+      const allowedIdx = getAllowedProjectIndex();
+      PROJECTS.forEach((projectName, pIdx) => {
+        if (allowedIdx !== null && pIdx !== allowedIdx) return;
+        IT_DEVICES.forEach((devName, dIdx) => {
+          const entry = getDeviceEntry(pIdx, dIdx);
+          if (entry.status === "yes") {
+            const skipEmp = NO_EMP_DEVICES.has(devName);
+            const isPrinter = PRINTER_DEVICES.has(devName);
+            const list = Array.isArray(entry.entries) && entry.entries.length > 0
+              ? entry.entries
+              : [{ empId: "", empName: "", reason: "" }];
+            list.forEach((sub, eIdx) => {
+              const typeTag = isPrinter ? ` [${sub.issueType || "Printer Problem"}]` : "";
+              items.push({
+                source: "active",
+                pIdx,
+                dIdx,
+                eIdx,
+                projectLabel: `${pIdx + 1}. ${projectName}`,
+                deviceLabel: `${dIdx + 1}. ${devName}${typeTag}${list.length > 1 ? ` (#${eIdx + 1})` : ""}`,
+                skipEmp,
+                empId: skipEmp ? "—" : ((sub.empId || "").trim() || "N/A"),
+                empName: skipEmp ? "—" : ((sub.empName || "").trim() || "N/A"),
+                reason: (isPrinter && sub.issueType === "Toner Refill") ? "Toner Refill" : ((sub.reason || "").trim() || "No reason written yet"),
+                timestamp: getFormattedReportTimestamp()
+              });
+            });
+          }
+        });
+      });
+      return items;
+    }
+
+    function getSubmittedReportIssues() {
+      const items = [];
+      const allowedIdx = getAllowedProjectIndex();
+      reportsState.forEach((rep) => {
+        const matchedPIdx = PROJECTS.findIndex((p, idx) => rep.projectName === `${idx + 1}. ${p}`);
+        if (allowedIdx !== null && matchedPIdx !== allowedIdx) return;
+        if (Array.isArray(rep.issueDetails) && rep.issueDetails.length > 0) {
+          rep.issueDetails.forEach((d) => {
+            items.push({
+              source: "submitted",
+              reportId: rep.id,
+              pIdx: matchedPIdx,
+              projectLabel: rep.projectName,
+              deviceLabel: d.device,
+              skipEmp: d.empId === "—" && d.empName === "—",
+              empId: d.empId || "N/A",
+              empName: d.empName || "N/A",
+              reason: d.reason || "No reason provided",
+              timestamp: rep.timestamp
+            });
+          });
+        } else if (Array.isArray(rep.issues) && rep.issues.length > 0) {
+          rep.issues.forEach((iss) => {
+            items.push({
+              source: "submitted",
+              reportId: rep.id,
+              pIdx: matchedPIdx,
+              projectLabel: rep.projectName,
+              deviceLabel: "Reported Issue",
+              skipEmp: true,
+              empId: "—",
+              empName: "—",
+              reason: iss,
+              timestamp: rep.timestamp
+            });
+          });
+        }
+      });
+      return items;
+    }
+
+    function updateServicesBadge() {
+      const badge = document.getElementById("servicesNavBadge");
+      if (!badge) return;
+      const count = getActiveChecklistIssues().length;
+      if (count > 0) {
+        badge.textContent = count;
+        badge.style.display = "inline-flex";
+      } else {
+        badge.style.display = "none";
+      }
+    }
+
+    function populateServiceProjectFilter() {
+      const projSelect = document.getElementById("serviceProjectFilter");
+      if (!projSelect) return;
+      const allowedIdx = getAllowedProjectIndex();
+      projSelect.innerHTML = "";
+      if (allowedIdx !== null) {
+        const opt = document.createElement("option");
+        opt.value = String(allowedIdx);
+        opt.textContent = `${allowedIdx + 1}. ${PROJECTS[allowedIdx]}`;
+        projSelect.appendChild(opt);
+        projSelect.value = String(allowedIdx);
+      } else {
+        projSelect.innerHTML = `<option value="all">All Projects</option>`;
+        PROJECTS.forEach((name, idx) => {
+          const opt = document.createElement("option");
+          opt.value = String(idx);
+          opt.textContent = `${idx + 1}. ${name}`;
+          projSelect.appendChild(opt);
+        });
+      }
+    }
+
+    function initServiceFilters() {
+      populateServiceProjectFilter();
+      const projSelect = document.getElementById("serviceProjectFilter");
+      if (projSelect && !projSelect.dataset.bound) {
+        projSelect.dataset.bound = "1";
+        projSelect.addEventListener("change", renderServices);
+      }
+
+      const srcSelect = document.getElementById("serviceSourceFilter");
+      if (srcSelect && !srcSelect.dataset.bound) {
+        srcSelect.dataset.bound = "1";
+        srcSelect.addEventListener("change", renderServices);
+      }
+    }
+
+    function getFilteredServiceIssues() {
+      const projVal = document.getElementById("serviceProjectFilter")?.value || "all";
+      const srcVal = document.getElementById("serviceSourceFilter")?.value || "active";
+
+      let combined = [];
+      if (srcVal === "active" || srcVal === "all") {
+        combined = combined.concat(getActiveChecklistIssues());
+      }
+      if (srcVal === "submitted" || srcVal === "all") {
+        combined = combined.concat(getSubmittedReportIssues());
+      }
+
+      if (projVal !== "all") {
+        const targetIdx = Number(projVal);
+        combined = combined.filter((item) => item.pIdx === targetIdx);
+      }
+      return combined;
+    }
+
+    function resolveActiveIssue(pIdx, dIdx, eIdx) {
+      const entry = getDeviceEntry(pIdx, dIdx);
+      const devName = IT_DEVICES[dIdx];
+      const skipEmp = NO_EMP_DEVICES.has(devName);
+      const isPrinter = PRINTER_DEVICES.has(devName);
+      const sub = (Array.isArray(entry.entries) && entry.entries[eIdx])
+        ? entry.entries[eIdx]
+        : { empId: "", empName: "", reason: "" };
+      const typeTag = isPrinter ? ` [${sub.issueType || "Printer Problem"}]` : "";
+
+      const servicedRecord = {
+        device: `${dIdx + 1}. ${devName}${typeTag}`,
+        empId: skipEmp ? "—" : ((sub.empId || "").trim() || "N/A"),
+        empName: skipEmp ? "—" : ((sub.empName || "").trim() || "N/A"),
+        reason: (isPrinter && sub.issueType === "Toner Refill") ? "Toner Refill" : ((sub.reason || "").trim() || "No reason provided"),
+        servicedAt: getFormattedReportTimestamp()
+      };
+
+      if (Array.isArray(entry.entries) && entry.entries.length > 1) {
+        entry.entries.splice(eIdx, 1);
+      } else {
+        entry.status = "no";
+        entry.entries = [{ empId: "", empName: "", reason: "" }];
+      }
+      saveJSON(STORAGE_KEY, checklistState);
+      upsertDailyReport(pIdx, servicedRecord);
+      renderProjects();
+      updateServicesBadge();
+      renderServices();
+      showToast("Marked as serviced & added to today's report");
+    }
+
+    function renderServices() {
+      const container = document.getElementById("servicesIssuesContainer");
+      const summaryBar = document.getElementById("servicesSummaryBar");
+      if (!container || !summaryBar) return;
+
+      const activeIssues = getActiveChecklistIssues();
+      const submittedIssues = getSubmittedReportIssues();
+      const filtered = getFilteredServiceIssues();
+
+      const affectedProjects = new Set(activeIssues.map((i) => i.pIdx)).size;
+
+      summaryBar.innerHTML = `
+        <div class="service-stat-pill ${activeIssues.length > 0 ? "has-issues" : ""}">
+          Active Issues (Project Name): ${activeIssues.length}
+        </div>
+        <div class="service-stat-pill">
+          Projects Needing Service: ${affectedProjects}
+        </div>
+        <div class="service-stat-pill">
+          Submitted Report Issues: ${submittedIssues.length}
+        </div>
+      `;
+
+      container.innerHTML = "";
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="service-empty-box">
+            <strong>No issues found for this filter.</strong><br/>
+            When you select <strong>Yes</strong> and write a problem in <strong>Project Name</strong>, it will automatically appear here in <strong>Services</strong>.
+          </div>
+        `;
+        return;
+      }
+
+      const grouped = new Map();
+      filtered.forEach((item) => {
+        if (!grouped.has(item.projectLabel)) grouped.set(item.projectLabel, []);
+        grouped.get(item.projectLabel).push(item);
+      });
+
+      grouped.forEach((items, projectLabel) => {
+        const card = document.createElement("div");
+        card.className = "service-project-card";
+
+        const head = document.createElement("div");
+        head.className = "service-project-head";
+        head.innerHTML = `<h3>${escapeHtml(projectLabel)} (${items.length} Issue${items.length > 1 ? "s" : ""})</h3>`;
+
+        const firstPIdx = items[0].pIdx;
+        if (firstPIdx >= 0) {
+          const goBtn = document.createElement("button");
+          goBtn.type = "button";
+          goBtn.className = "btn btn-secondary";
+          goBtn.textContent = "Open Project";
+          goBtn.addEventListener("click", () => {
+            selectedProjectIndex = firstPIdx;
+            renderProjects();
+            switchSection("projects");
+          });
+          head.appendChild(goBtn);
+        }
+        card.appendChild(head);
+
+        const list = document.createElement("div");
+        list.className = "service-issue-list";
+
+        items.forEach((item) => {
+          const row = document.createElement("div");
+          row.className = "service-issue-item" + (item.source === "submitted" ? " is-submitted" : "");
+
+          const main = document.createElement("div");
+          main.className = "service-issue-main";
+
+          const metaText = item.skipEmp
+            ? (item.source === "submitted" ? `Submitted: ${item.timestamp}` : "Active Checklist Entry")
+            : `ID: ${item.empId} • Employee: ${item.empName}` +
+              (item.source === "submitted" ? ` • Submitted: ${item.timestamp}` : "");
+
+          main.innerHTML = `
+            <div class="service-issue-title">
+              <span>${escapeHtml(item.deviceLabel)}</span>
+              <span class="service-source-badge ${item.source === "submitted" ? "submitted" : ""}">
+                ${item.source === "submitted" ? "Submitted Report" : "Active Issue"}
+              </span>
+            </div>
+            <div class="service-issue-meta">${escapeHtml(metaText)}</div>
+            <div class="service-issue-reason"><strong>Problem / Reason:</strong> ${escapeHtml(item.reason)}</div>
+          `;
+
+          const actions = document.createElement("div");
+          actions.className = "service-issue-actions";
+
+          if (item.source === "active") {
+            const resolveBtn = document.createElement("button");
+            resolveBtn.type = "button";
+            resolveBtn.className = "btn btn-success";
+            resolveBtn.textContent = "Mark Serviced";
+            resolveBtn.addEventListener("click", () => resolveActiveIssue(item.pIdx, item.dIdx, item.eIdx));
+            actions.appendChild(resolveBtn);
+          }
+
+          row.appendChild(main);
+          row.appendChild(actions);
+          list.appendChild(row);
+        });
+
+        card.appendChild(list);
+        container.appendChild(card);
+      });
+    }
+
+    document.getElementById("copyServicesBtn").addEventListener("click", () => {
+      const items = getFilteredServiceIssues();
+      if (items.length === 0) {
+        showToast("No service issues to copy");
+        return;
+      }
+      const lines = [
+        "NABIL INDUSTRIAL PARK — IT Service Issues List",
+        `Generated: ${getFormattedReportTimestamp()}`,
+        ""
+      ];
+      items.forEach((item, idx) => {
+        const empPart = item.skipEmp ? "" : ` | ID: ${item.empId} | Employee: ${item.empName}`;
+        lines.push(`${idx + 1}. [${item.projectLabel}] ${item.deviceLabel}${empPart} — Issue: ${item.reason}`);
+      });
+      copyTextToClipboard(lines.join("\n"));
+    });
+
+    document.getElementById("exportServicesPdfBtn").addEventListener("click", () => {
+      const items = getFilteredServiceIssues();
+      if (items.length === 0) {
+        showToast("No service issues to export");
+        return;
+      }
+      const printArea = document.getElementById("printArea");
+      const generatedAt = new Date().toLocaleString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: !use24Hour
+      });
+
+      const rowsHtml = items.map((item) => `
+        <tr>
+          <td>${escapeHtml(item.projectLabel)}</td>
+          <td>${escapeHtml(item.deviceLabel)}</td>
+          <td>${escapeHtml(item.empId)}</td>
+          <td>${escapeHtml(item.empName)}</td>
+          <td>${escapeHtml(item.reason)}</td>
+          <td>${item.source === "submitted" ? "Submitted" : "Active"}</td>
+        </tr>
+      `).join("");
+
+      printArea.innerHTML = `
+        <div class="pdf-header">
+          <div>
+            <h1>NABIL INDUSTRIAL PARK</h1>
+            <p>IT Service Issues Queue</p>
+          </div>
+          <p>Generated: ${escapeHtml(generatedAt)}</p>
+        </div>
+        <table class="pdf-issues-table">
+          <thead>
+            <tr>
+              <th>Project Name</th>
+              <th>IT Device</th>
+              <th>ID Number</th>
+              <th>Employee Name</th>
+              <th>Problem / Reason</th>
+              <th>Source</th>
+            </tr>
+          </thead>
+          <tbody>${rowsHtml}</tbody>
+        </table>
+      `;
+      window.print();
+    });
+
+    // Edit Report Modal Logic
+    let editingReportId = null;
+
+    function closeEditReportModal() {
+      editingReportId = null;
+      const modal = document.getElementById("editReportModal");
+      if (modal) modal.classList.remove("open");
+    }
+
+    function addEditModalIssueRow(container, data) {
+      const row = document.createElement("div");
+      row.className = "modal-edit-row edit-issue-row";
+      row.innerHTML = `
+        <input type="text" class="checker-input edit-dev" placeholder="Device..." value="${escapeHtml(data.device || "")}" />
+        <input type="text" class="checker-input edit-id" placeholder="ID..." value="${escapeHtml(data.empId || "")}" />
+        <input type="text" class="checker-input edit-emp" placeholder="Employee..." value="${escapeHtml(data.empName || "")}" />
+        <input type="text" class="checker-input edit-reason" placeholder="Reason..." value="${escapeHtml(data.reason || "")}" />
+        <button type="button" class="remove-entry-btn">Remove</button>
+      `;
+      row.querySelector(".remove-entry-btn").addEventListener("click", () => row.remove());
+      container.appendChild(row);
+    }
+
+    function addEditModalServicedRow(container, data) {
+      const row = document.createElement("div");
+      row.className = "modal-edit-row edit-serviced-row";
+      row.innerHTML = `
+        <input type="text" class="checker-input edit-dev" placeholder="Device..." value="${escapeHtml(data.device || "")}" />
+        <input type="text" class="checker-input edit-id" placeholder="ID..." value="${escapeHtml(data.empId || "")}" />
+        <input type="text" class="checker-input edit-emp" placeholder="Employee..." value="${escapeHtml(data.empName || "")}" />
+        <input type="text" class="checker-input edit-reason" placeholder="Reason / Serviced Note..." value="${escapeHtml(data.reason || "")}" />
+        <button type="button" class="remove-entry-btn">Remove</button>
+      `;
+      row.dataset.servicedAt = data.servicedAt || getFormattedReportTimestamp();
+      row.querySelector(".remove-entry-btn").addEventListener("click", () => row.remove());
+      container.appendChild(row);
+    }
+
+    function openEditReportModal(reportId) {
+      const rep = reportsState.find((r) => r.id === reportId);
+      if (!rep) return;
+      editingReportId = reportId;
+
+      document.getElementById("editModalTitle").textContent = `Edit Report — ${rep.projectName}`;
+      const body = document.getElementById("editModalBody");
+      const c1 = (rep.checkers && rep.checkers.c1) || { name: "", id: "", desig: "" };
+      const c2 = (rep.checkers && rep.checkers.c2) || { name: "", id: "", desig: "" };
+
+      body.innerHTML = `
+        <div>
+          <div class="modal-section-title">Report Timestamp</div>
+          <input type="text" class="checker-input" id="editRepTimestamp" value="${escapeHtml(rep.timestamp || "")}" />
+        </div>
+        <div class="checker-grid">
+          <div class="checker-person">
+            <div class="checker-person-title">Checker 1</div>
+            <div class="checker-fields">
+              <input type="text" class="checker-input full-span" id="editC1Name" placeholder="Name..." value="${escapeHtml(c1.name || "")}" />
+              <input type="text" class="checker-input" id="editC1Id" placeholder="ID..." value="${escapeHtml(c1.id || "")}" />
+              <input type="text" class="checker-input" id="editC1Desig" placeholder="Designation..." value="${escapeHtml(c1.desig || "")}" />
+            </div>
+          </div>
+          <div class="checker-person">
+            <div class="checker-person-title">Checker 2</div>
+            <div class="checker-fields">
+              <input type="text" class="checker-input full-span" id="editC2Name" placeholder="Name..." value="${escapeHtml(c2.name || "")}" />
+              <input type="text" class="checker-input" id="editC2Id" placeholder="ID..." value="${escapeHtml(c2.id || "")}" />
+              <input type="text" class="checker-input" id="editC2Desig" placeholder="Designation..." value="${escapeHtml(c2.desig || "")}" />
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="modal-section-title">Reported Issues</div>
+          <div id="editIssuesRows"></div>
+          <button type="button" class="add-more-btn" id="editAddIssueBtn">+ Add Issue</button>
+        </div>
+        <div>
+          <div class="modal-section-title">Serviced / Resolved Items</div>
+          <div id="editServicedRows"></div>
+          <button type="button" class="add-more-btn" id="editAddServicedBtn" style="border-color:#10b981; color:#065f46;">+ Add Serviced Item</button>
+        </div>
+      `;
+
+      const issuesWrap = document.getElementById("editIssuesRows");
+      const details = Array.isArray(rep.issueDetails) ? rep.issueDetails : [];
+      details.forEach((d) => addEditModalIssueRow(issuesWrap, d));
+
+      const servicedWrap = document.getElementById("editServicedRows");
+      const serviced = Array.isArray(rep.servicedItems) ? rep.servicedItems : [];
+      serviced.forEach((s) => addEditModalServicedRow(servicedWrap, s));
+
+      document.getElementById("editAddIssueBtn").addEventListener("click", () => {
+        addEditModalIssueRow(issuesWrap, { device: "", empId: "", empName: "", reason: "" });
+      });
+
+      document.getElementById("editAddServicedBtn").addEventListener("click", () => {
+        addEditModalServicedRow(servicedWrap, {
+          device: "",
+          empId: "",
+          empName: "",
+          reason: "",
+          servicedAt: getFormattedReportTimestamp()
+        });
+      });
+
+      document.getElementById("editReportModal").classList.add("open");
+    }
+
+    function saveEditedReport() {
+      if (editingReportId === null) return;
+      const idx = reportsState.findIndex((r) => r.id === editingReportId);
+      if (idx === -1) return;
+
+      const rep = reportsState[idx];
+      const newTimestamp = document.getElementById("editRepTimestamp").value.trim() || rep.timestamp;
+
+      const newCheckers = {
+        c1: {
+          name: document.getElementById("editC1Name").value.trim() || "N/A",
+          id: document.getElementById("editC1Id").value.trim() || "N/A",
+          desig: document.getElementById("editC1Desig").value.trim() || "N/A"
+        },
+        c2: {
+          name: document.getElementById("editC2Name").value.trim() || "N/A",
+          id: document.getElementById("editC2Id").value.trim() || "N/A",
+          desig: document.getElementById("editC2Desig").value.trim() || "N/A"
+        }
+      };
+
+      const newIssueDetails = [];
+      const newIssues = [];
+      document.querySelectorAll("#editIssuesRows .edit-issue-row").forEach((row) => {
+        const device = row.querySelector(".edit-dev").value.trim();
+        const empId = row.querySelector(".edit-id").value.trim() || "—";
+        const empName = row.querySelector(".edit-emp").value.trim() || "—";
+        const reason = row.querySelector(".edit-reason").value.trim() || "No reason provided";
+        if (!device && !reason) return;
+        const devLabel = device || "IT Device";
+        newIssueDetails.push({ device: devLabel, empId, empName, reason });
+        if (empId === "—" && empName === "—") {
+          newIssues.push(`${devLabel}: ${reason}`);
+        } else {
+          newIssues.push(`${devLabel} (ID: ${empId}, Employee: ${empName}): ${reason}`);
+        }
+      });
+
+      const newServicedItems = [];
+      document.querySelectorAll("#editServicedRows .edit-serviced-row").forEach((row) => {
+        const device = row.querySelector(".edit-dev").value.trim();
+        const empId = row.querySelector(".edit-id").value.trim() || "—";
+        const empName = row.querySelector(".edit-emp").value.trim() || "—";
+        const reason = row.querySelector(".edit-reason").value.trim() || "Serviced";
+        if (!device && !reason) return;
+        newServicedItems.push({
+          device: device || "IT Device",
+          empId,
+          empName,
+          reason,
+          servicedAt: row.dataset.servicedAt || getFormattedReportTimestamp()
+        });
+      });
+
+      reportsState[idx] = {
+        ...rep,
+        timestamp: newTimestamp,
+        checkers: newCheckers,
+        issueDetails: newIssueDetails,
+        issues: newIssues,
+        yesCount: newIssueDetails.length,
+        servicedItems: newServicedItems
+      };
+
+      saveJSON(REPORTS_KEY, reportsState);
+      closeEditReportModal();
+      renderReports();
+      renderServices();
+      showToast("Report updated successfully");
+    }
+
+    document.getElementById("closeEditModalBtn").addEventListener("click", closeEditReportModal);
+    document.getElementById("cancelEditModalBtn").addEventListener("click", closeEditReportModal);
+    document.getElementById("saveEditModalBtn").addEventListener("click", saveEditedReport);
+
+    // Contact Directory Logic (2 Persons)
+    const CONTACTS_KEY = "nabil_it_two_contacts_v1";
+    let twoContactsState = loadJSON(CONTACTS_KEY, {
+      p1: { name: "", mobile: "", whatsapp: "", email: "" },
+      p2: { name: "", mobile: "", whatsapp: "", email: "" }
+    });
+
+    function formatWhatsAppDigits(raw) {
+      let digits = String(raw || "").replace(/[^0-9]/g, "");
+      if (!digits) return "";
+      if (/^01\d{9}$/.test(digits)) {
+        digits = "88" + digits;
+      }
+      return digits;
+    }
+
+    function renderContactQuickLinks(key, targetId) {
+      const box = document.getElementById(targetId);
+      if (!box) return;
+      const c = twoContactsState[key] || {};
+      const mobile = (c.mobile || "").trim();
+      const waRaw = (c.whatsapp || "").trim();
+      const waDigits = formatWhatsAppDigits(waRaw);
+      const email = (c.email || "").trim();
+
+      const phoneIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>`;
+      const waIcon = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2zm5.79 14.01c-.24.68-1.41 1.3-1.95 1.38-.5.07-1.13.1-1.82-.12-.42-.13-.96-.31-1.65-.61-2.9-1.25-4.79-4.18-4.94-4.37-.14-.2-1.18-1.57-1.18-3 0-1.43.75-2.13 1.01-2.42.27-.29.58-.36.77-.36.19 0 .39 0 .56.01.18.01.42-.07.66.5.24.58.82 2 .89 2.15.07.14.12.31.02.5-.1.2-.15.31-.29.48-.15.17-.31.38-.44.51-.15.15-.3.31-.13.61.17.29.75 1.24 1.62 2.01 1.11.99 2.05 1.3 2.34 1.44.29.15.46.12.63-.07.17-.2.73-.85.92-1.14.19-.29.39-.24.65-.15.27.1 1.69.8 1.98.94.29.15.48.22.55.34.07.12.07.7-.17 1.38z"/></svg>`;
+      const emailIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>`;
+
+      box.innerHTML = "";
+
+      if (mobile) {
+        const a = document.createElement("a");
+        a.className = "contact-action-btn phone-btn";
+        a.href = `tel:${mobile}`;
+        a.innerHTML = `${phoneIcon}<span>${escapeHtml(mobile)}</span>`;
+        box.appendChild(a);
+      } else {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "contact-action-btn phone-btn is-empty";
+        btn.innerHTML = `${phoneIcon}<span>Phone</span>`;
+        btn.addEventListener("click", () => showToast("Please enter a mobile number first"));
+        box.appendChild(btn);
+      }
+
+      if (waDigits) {
+        const a = document.createElement("a");
+        a.className = "contact-action-btn whatsapp-btn";
+        a.href = `https://wa.me/${waDigits}`;
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
+        a.innerHTML = `${waIcon}<span>WhatsApp</span>`;
+        box.appendChild(a);
+      } else {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "contact-action-btn whatsapp-btn is-empty";
+        btn.innerHTML = `${waIcon}<span>WhatsApp</span>`;
+        btn.addEventListener("click", () => showToast("Please enter a WhatsApp number first"));
+        box.appendChild(btn);
+      }
+
+      if (email) {
+        const a = document.createElement("a");
+        a.className = "contact-action-btn email-btn";
+        a.href = `mailto:${email}`;
+        a.innerHTML = `${emailIcon}<span>Email</span>`;
+        box.appendChild(a);
+      } else {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "contact-action-btn email-btn is-empty";
+        btn.innerHTML = `${emailIcon}<span>Email</span>`;
+        btn.addEventListener("click", () => showToast("Please enter an email address first"));
+        box.appendChild(btn);
+      }
+    }
+
+    function renderContacts() {
+      const map = [
+        ["contact1Name", "p1", "name"],
+        ["contact1Mobile", "p1", "mobile"],
+        ["contact1Whatsapp", "p1", "whatsapp"],
+        ["contact1Email", "p1", "email"],
+        ["contact2Name", "p2", "name"],
+        ["contact2Mobile", "p2", "mobile"],
+        ["contact2Whatsapp", "p2", "whatsapp"],
+        ["contact2Email", "p2", "email"]
+      ];
+      map.forEach(([elId, key, field]) => {
+        const el = document.getElementById(elId);
+        if (!el) return;
+        el.value = (twoContactsState[key] && twoContactsState[key][field]) || "";
+        if (!el.dataset.bound) {
+          el.dataset.bound = "1";
+          el.addEventListener("input", () => {
+            twoContactsState[key] = twoContactsState[key] || { name: "", mobile: "", whatsapp: "", email: "" };
+            twoContactsState[key][field] = el.value;
+            saveJSON(CONTACTS_KEY, twoContactsState);
+            renderContactQuickLinks(key, key === "p1" ? "contact1Links" : "contact2Links");
+          });
+        }
+      });
+      renderContactQuickLinks("p1", "contact1Links");
+      renderContactQuickLinks("p2", "contact2Links");
+    }
+
+    const clearContactsBtn = document.getElementById("clearContactsBtn");
+    if (clearContactsBtn) {
+      clearContactsBtn.addEventListener("click", () => {
+        twoContactsState = {
+          p1: { name: "", mobile: "", whatsapp: "", email: "" },
+          p2: { name: "", mobile: "", whatsapp: "", email: "" }
+        };
+        saveJSON(CONTACTS_KEY, twoContactsState);
+        renderContacts();
+        showToast("Contacts cleared");
+      });
+    }
+
+    // Login & Registration / Auth Gate
+    function applyAuthState(session) {
+      const logoutBtn = document.getElementById("logoutBtn");
+      if (session && session.loggedIn) {
+        document.body.classList.remove("auth-locked");
+        if (logoutBtn) {
+          const roleTag = session.role === "admin" ? "Admin" : (session.project || "User");
+          const label = session.name ? `${session.name} • ${roleTag}` : (session.phone || "");
+          logoutBtn.textContent = label ? `Logout (${label})` : "Logout";
+        }
+        const allowedIdx = getAllowedProjectIndex();
+        selectedProjectIndex = allowedIdx !== null ? allowedIdx : null;
+        buildProjectMenu();
+        populateServiceProjectFilter();
+        renderProjects();
+        renderReports();
+        updateServicesBadge();
+        renderServices();
+      } else {
+        document.body.classList.add("auth-locked");
+      }
+    }
+
+    function bindPwToggle(btnId, inputId) {
+      const btn = document.getElementById(btnId);
+      const inp = document.getElementById(inputId);
+      if (btn && inp) {
+        btn.addEventListener("click", () => {
+          const isPw = inp.type === "password";
+          inp.type = isPw ? "text" : "password";
+          btn.textContent = isPw ? "Hide" : "Show";
+        });
+      }
+    }
+
+    function initAuth() {
+      const saved = loadJSON(AUTH_KEY, null);
+      applyAuthState(saved);
+
+      const tabLoginBtn = document.getElementById("tabLoginBtn");
+      const tabRegisterBtn = document.getElementById("tabRegisterBtn");
+      const loginPanel = document.getElementById("loginPanel");
+      const registerPanel = document.getElementById("registerPanel");
+
+      const regProjectEl = document.getElementById("regProject");
+      const regProjectWrap = document.getElementById("regProjectWrap");
+      const regRoleEl = document.getElementById("regRole");
+      const adminSlotInfoEl = document.getElementById("adminSlotInfo");
+
+      const regProjectSelectBox = document.getElementById("regProjectSelectBox");
+      const regAdminProjectsBox = document.getElementById("regAdminProjectsBox");
+      const regAdminAllCb = document.getElementById("regAdminAllProjects");
+      const regAdminProjGrid = document.getElementById("regAdminProjGrid");
+
+      if (regAdminProjGrid && regAdminProjGrid.children.length === 0) {
+        PROJECTS.forEach((p, idx) => {
+          const lbl = document.createElement("label");
+          lbl.className = "reg-admin-proj-item";
+          const cb = document.createElement("input");
+          cb.type = "checkbox";
+          cb.className = "reg-admin-proj-cb";
+          cb.value = p;
+          cb.addEventListener("change", () => {
+            if (regAdminAllCb) {
+              const allCbs = Array.from(regAdminProjGrid.querySelectorAll(".reg-admin-proj-cb"));
+              regAdminAllCb.checked = allCbs.length > 0 && allCbs.every((c) => c.checked);
+            }
+          });
+          lbl.appendChild(cb);
+          lbl.appendChild(document.createTextNode(`${idx + 1}. ${p}`));
+          regAdminProjGrid.appendChild(lbl);
+        });
+      }
+
+      if (regAdminAllCb && !regAdminAllCb.dataset.bound) {
+        regAdminAllCb.dataset.bound = "1";
+        regAdminAllCb.addEventListener("change", () => {
+          const checked = regAdminAllCb.checked;
+          regAdminProjGrid?.querySelectorAll(".reg-admin-proj-cb").forEach((cb) => {
+            cb.checked = checked;
+          });
+        });
+      }
+
+      function populateRegProjectOptions() {
+        const isAdmin = regRoleEl && regRoleEl.value === "admin";
+        if (regProjectWrap) regProjectWrap.style.display = "block";
+        if (regProjectSelectBox) regProjectSelectBox.style.display = isAdmin ? "none" : "flex";
+        if (regAdminProjectsBox) regAdminProjectsBox.style.display = isAdmin ? "block" : "none";
+
+        if (!isAdmin && regProjectEl) {
+          regProjectEl.innerHTML = "";
+          const defOpt = document.createElement("option");
+          defOpt.value = "";
+          defOpt.textContent = "Select Project...";
+          regProjectEl.appendChild(defOpt);
+          PROJECTS.forEach((p, idx) => {
+            const opt = document.createElement("option");
+            opt.value = p;
+            opt.textContent = `${idx + 1}. ${p}`;
+            regProjectEl.appendChild(opt);
+          });
+        }
+      }
+
+      function refreshAdminSlotUI() {
+        const users = loadJSON(USERS_KEY, []);
+        const adminCount = Array.isArray(users) ? users.filter((u) => u.role === "admin").length : 0;
+        const remaining = Math.max(0, MAX_ADMINS - adminCount);
+        if (adminSlotInfoEl) {
+          adminSlotInfoEl.textContent = `(Admin Slots: ${adminCount}/${MAX_ADMINS} used)`;
+        }
+        if (regRoleEl) {
+          const adminOpt = regRoleEl.querySelector('option[value="admin"]');
+          if (adminOpt) {
+            adminOpt.disabled = remaining === 0;
+            adminOpt.textContent = remaining === 0
+              ? "Admin (All Projects — 2/2 Full)"
+              : `Admin (All Projects — ${remaining} slot left)`;
+          }
+          if (remaining === 0 && regRoleEl.value === "admin") {
+            regRoleEl.value = "user";
+          }
+        }
+        populateRegProjectOptions();
+      }
+
+      if (regRoleEl) {
+        regRoleEl.addEventListener("change", () => {
+          populateRegProjectOptions();
+        });
+      }
+      refreshAdminSlotUI();
+
+      function switchAuthTab(mode) {
+        const isReg = mode === "register";
+        tabLoginBtn?.classList.toggle("active", !isReg);
+        tabRegisterBtn?.classList.toggle("active", isReg);
+        loginPanel?.classList.toggle("active", !isReg);
+        registerPanel?.classList.toggle("active", isReg);
+        if (isReg) refreshAdminSlotUI();
+      }
+
+      tabLoginBtn?.addEventListener("click", () => switchAuthTab("login"));
+      tabRegisterBtn?.addEventListener("click", () => switchAuthTab("register"));
+
+      switchAuthTab("login");
+
+      bindPwToggle("toggleLoginPassword", "loginPassword");
+      bindPwToggle("toggleRegPassword", "regPassword");
+      bindPwToggle("toggleRegConfirmPassword", "regConfirmPassword");
+
+      // Registration Submit
+      const registerForm = document.getElementById("registerForm");
+      const regErrEl = document.getElementById("registerError");
+
+      function clearRegInlineErrors() {
+        regErrEl?.classList.remove("show");
+        registerForm?.querySelectorAll(".is-invalid").forEach((el) => el.classList.remove("is-invalid"));
+        registerForm?.querySelectorAll(".field-inline-error").forEach((el) => el.remove());
+      }
+
+      function markFieldInvalid(el, msg) {
+        if (!el) return;
+        el.classList.add("is-invalid");
+        const fieldWrap = el.closest(".login-field");
+        if (fieldWrap && !fieldWrap.querySelector(".field-inline-error")) {
+          const err = document.createElement("div");
+          err.className = "field-inline-error";
+          err.textContent = msg;
+          fieldWrap.appendChild(err);
+        }
+      }
+
+      if (registerForm) {
+        registerForm.querySelectorAll("input, select").forEach((el) => {
+          const evt = el.tagName === "SELECT" || el.type === "checkbox" ? "change" : "input";
+          el.addEventListener(evt, () => {
+            const fieldWrap = el.closest(".login-field");
+            fieldWrap?.querySelectorAll(".is-invalid").forEach((x) => x.classList.remove("is-invalid"));
+            fieldWrap?.querySelectorAll(".field-inline-error").forEach((x) => x.remove());
+            regErrEl?.classList.remove("show");
+          });
+        });
+
+        registerForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          clearRegInlineErrors();
+
+          const nameEl = document.getElementById("regName");
+          const empIdEl = document.getElementById("regEmpId");
+          const phoneElReg = document.getElementById("regPhone");
+          const pwElReg = document.getElementById("regPassword");
+          const confirmPwEl = document.getElementById("regConfirmPassword");
+
+          const name = (nameEl?.value || "").trim();
+          const empId = (empIdEl?.value || "").trim();
+          const role = (regRoleEl?.value || "user").trim();
+          const phone = (phoneElReg?.value || "").trim();
+          const pw = (pwElReg?.value || "").trim();
+          const confirmPw = (confirmPwEl?.value || "").trim();
+          const phoneDigits = normalizePhone(phone);
+
+          let firstInvalidEl = null;
+          let project = "";
+
+          if (!name) {
+            markFieldInvalid(nameEl, "Name is required.");
+            if (!firstInvalidEl) firstInvalidEl = nameEl;
+          }
+          if (!empId) {
+            markFieldInvalid(empIdEl, "Employee ID is required.");
+            if (!firstInvalidEl) firstInvalidEl = empIdEl;
+          }
+          if (role === "admin") {
+            const checkedCount = regAdminProjGrid
+              ? regAdminProjGrid.querySelectorAll(".reg-admin-proj-cb:checked").length
+              : 0;
+            if (checkedCount === 0) {
+              markFieldInvalid(regAdminProjectsBox, "Please tick 'All' to select projects.");
+              if (!firstInvalidEl) firstInvalidEl = regAdminAllCb;
+            } else {
+              project = "All Projects";
+            }
+          } else {
+            project = (regProjectEl?.value || "").trim();
+            if (!project) {
+              markFieldInvalid(regProjectEl, "Please select a project.");
+              if (!firstInvalidEl) firstInvalidEl = regProjectEl;
+            }
+          }
+          if (phoneDigits.length < 6) {
+            markFieldInvalid(phoneElReg, "Valid phone number is required.");
+            if (!firstInvalidEl) firstInvalidEl = phoneElReg;
+          }
+          if (!pw) {
+            markFieldInvalid(pwElReg, "Password is required.");
+            if (!firstInvalidEl) firstInvalidEl = pwElReg;
+          }
+          if (!confirmPw) {
+            markFieldInvalid(confirmPwEl, "Confirm Password is required.");
+            if (!firstInvalidEl) firstInvalidEl = confirmPwEl;
+          } else if (pw && pw !== confirmPw) {
+            markFieldInvalid(confirmPwEl, "Passwords do not match.");
+            if (!firstInvalidEl) firstInvalidEl = confirmPwEl;
+          }
+
+          if (firstInvalidEl) {
+            firstInvalidEl.focus();
+            regErrEl.textContent = "Please fill in the highlighted field(s) above.";
+            regErrEl.classList.add("show");
+            return;
+          }
+
+          const rawUsers = loadJSON(USERS_KEY, []);
+          const users = Array.isArray(rawUsers) ? rawUsers : [];
+          if (role === "admin") {
+            const adminCount = users.filter((u) => u.role === "admin").length;
+            if (adminCount >= MAX_ADMINS) {
+              markFieldInvalid(regRoleEl, "Maximum 2 Admin accounts allowed.");
+              regErrEl.textContent = "Maximum 2 Admin accounts are already registered.";
+              regErrEl.classList.add("show");
+              regRoleEl?.focus();
+              return;
+            }
+          }
+
+          const duplicate = users.some((u) => normalizePhone(u.phone) === phoneDigits);
+          if (duplicate) {
+            markFieldInvalid(phoneElReg, "This phone number is already registered.");
+            regErrEl.textContent = "This phone number is already registered. Please login.";
+            regErrEl.classList.add("show");
+            phoneElReg?.focus();
+            return;
+          }
+
+          const newUser = { name, empId, project, phone, password: pw, role, createdAt: Date.now() };
+          users.push(newUser);
+
+          // Confirm that this browser can persist the account before reporting success.
+          try {
+            localStorage.setItem(USERS_KEY, JSON.stringify(users));
+            const savedUsers = JSON.parse(localStorage.getItem(USERS_KEY) || "null");
+            if (!Array.isArray(savedUsers) || !savedUsers.some((u) => normalizePhone(u.phone) === phoneDigits)) {
+              throw new Error("Account could not be verified in browser storage.");
+            }
+            memoryStorage[USERS_KEY] = savedUsers;
+          } catch (storageError) {
+            regErrEl.textContent = "এই ব্রাউজারে অ্যাকাউন্ট সংরক্ষণ করা যাচ্ছে না। Browser storage চালু করে আবার চেষ্টা করুন।";
+            regErrEl.classList.add("show");
+            return;
+          }
+
+          refreshAdminSlotUI();
+          registerForm.reset();
+          if (regRoleEl) regRoleEl.value = "user";
+          populateRegProjectOptions();
+
+          // Automatically create a session after successful registration.
+          const session = {
+            loggedIn: true,
+            role: newUser.role === "admin" ? "admin" : "user",
+            name: newUser.name,
+            empId: newUser.empId,
+            project: newUser.project,
+            phone: newUser.phone,
+            loginAt: Date.now()
+          };
+          saveJSON(AUTH_KEY, session);
+          applyAuthState(session);
+          switchSection(session.role === "admin" ? "home" : "projects");
+          showToast(`Registration successful! Logged in as ${newUser.name}.`);
+        });
+      }
+
+      // Login Submit
+      const loginForm = document.getElementById("loginForm");
+      const phoneEl = document.getElementById("loginPhone");
+      const pwEl = document.getElementById("loginPassword");
+      const errEl = document.getElementById("loginError");
+      if (loginForm) {
+        loginForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const phone = (phoneEl?.value || "").trim();
+          const pw = (pwEl?.value || "").trim();
+          const digits = normalizePhone(phone);
+
+          if (digits.length < 6) {
+            errEl.textContent = "Please enter a valid phone number.";
+            errEl.classList.add("show");
+            phoneEl?.focus();
+            return;
+          }
+          if (!pw) {
+            errEl.textContent = "Please enter your password.";
+            errEl.classList.add("show");
+            pwEl?.focus();
+            return;
+          }
+
+          const users = loadJSON(USERS_KEY, []);
+          if (!Array.isArray(users) || users.length === 0) {
+            errEl.textContent = "No account registered yet. Please register first.";
+            errEl.classList.add("show");
+            return;
+          }
+
+          const matched = users.find((u) => normalizePhone(u.phone) === digits);
+          if (!matched) {
+            errEl.textContent = "Phone number not found. Please register first.";
+            errEl.classList.add("show");
+            return;
+          }
+          if (matched.password !== pw) {
+            errEl.textContent = "Incorrect password. Please try again.";
+            errEl.classList.add("show");
+            pwEl?.focus();
+            return;
+          }
+
+          errEl.classList.remove("show");
+          const role = matched.role === "admin" ? "admin" : "user";
+          const session = {
+            loggedIn: true,
+            role,
+            name: matched.name,
+            empId: matched.empId,
+            project: matched.project,
+            phone: matched.phone,
+            loginAt: Date.now()
+          };
+          saveJSON(AUTH_KEY, session);
+          applyAuthState(session);
+          switchSection(role === "admin" ? "home" : "projects");
+          if (pwEl) pwEl.value = "";
+          showToast(
+            role === "admin"
+              ? `Logged in as Admin ${matched.name} (All Projects)`
+              : `Logged in as ${matched.name} (${matched.project})`
+          );
+        });
+      }
+
+      const logoutBtn = document.getElementById("logoutBtn");
+      if (logoutBtn) {
+        logoutBtn.addEventListener("click", () => {
+          saveJSON(AUTH_KEY, { loggedIn: false });
+          applyAuthState(null);
+          switchAuthTab("login");
+          showToast("Logged out");
+        });
+      }
+    }
+
+    // Init
+    initAuth();
+    initCheckersForm();
+    buildMenus();
+    buildDeviceDirectory();
+    buildAboutDevices();
+    const aboutSearchEl = document.getElementById("aboutDeviceSearch");
+    if (aboutSearchEl) {
+      aboutSearchEl.addEventListener("input", () => buildAboutDevices(aboutSearchEl.value));
+    }
+    initServiceFilters();
+    renderProjects();
+    renderReports();
+    updateServicesBadge();
+    renderServices();
+    renderContacts();
+  </script>
+</body>
+</html>
